@@ -1,6 +1,7 @@
 <?php
 
-function calgarybrightminds_files() {
+function calgarybrightminds_files()
+{
     wp_enqueue_style(
         'calgarybrightminds-fonts',
         'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap',
@@ -56,7 +57,8 @@ function calgarybrightminds_files() {
 
 add_action('wp_enqueue_scripts', 'calgarybrightminds_files');
 
-function calgarybrightminds_resource_hints($urls, $relation_type) {
+function calgarybrightminds_resource_hints($urls, $relation_type)
+{
     if ('preconnect' === $relation_type) {
         $urls[] = 'https://fonts.googleapis.com';
         $urls[] = array(
@@ -70,4 +72,14 @@ function calgarybrightminds_resource_hints($urls, $relation_type) {
 
 add_filter('wp_resource_hints', 'calgarybrightminds_resource_hints', 10, 2);
 
+function calgarybrightminds_favicons()
+{
+?>
+    <link rel="icon" href="<?php echo esc_url(get_theme_file_uri('/assets/images/cropped-brightminds_favicon-32x32.png')); ?>" sizes="32x32">
+    <link rel="icon" href="<?php echo esc_url(get_theme_file_uri('/assets/images/cropped-brightminds_favicon-192x192.png')); ?>" sizes="192x192">
+    <link rel="apple-touch-icon" href="<?php echo esc_url(get_theme_file_uri('/assets/images/cropped-brightminds_favicon-180x180.png')); ?>">
+    <meta name="msapplication-TileImage" content="<?php echo esc_url(get_theme_file_uri('/assets/images/cropped-brightminds_favicon-270x270.png')); ?>">
+<?php
+}
 
+add_action('wp_head', 'calgarybrightminds_favicons');

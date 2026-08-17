@@ -1584,6 +1584,44 @@ button {
     line-height: 1.5;
     margin: 0;
 }
+/* Contact form resets */
+.contact-form p {
+    margin: 0;
+}
+
+.contact-form br {
+    display: none;
+}
+
+.contact-form .wpcf7-form-control-wrap {
+    display: block;
+    width: 100%;
+}
+
+.contact-form__stepper > p {
+    display: contents;
+}
+.contact-form__actions > p{
+    display: contents;
+}
+.contact-form__grid > p{
+    display: contents;
+    width: 100%;
+}
+
+.contact-form .wpcf7-spinner {
+    position: absolute;
+    right: -28px;
+    top: 50%;
+    margin: 0;
+    transform: translateY(-50%);
+}
+
+.contact-form .contact-form__submit {
+    position: relative;
+}
+
+/* end here */
 
 .contact-page {
     background: var(--color-yellow);

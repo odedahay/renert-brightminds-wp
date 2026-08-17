@@ -445,10 +445,10 @@ document.querySelectorAll(".contact-form").forEach((contactForm) => {
             panel.hidden = !isActive;
             panel.classList.toggle("is-active", isActive);
             panel.setAttribute("aria-hidden", String(!isActive));
-
-            panel.querySelectorAll("input, select, textarea").forEach((control) => {
-                control.disabled = !isActive;
-            });
+            // For static presentation
+            // panel.querySelectorAll("input, select, textarea").forEach((control) => {
+            //     control.disabled = !isActive;
+            // });
         });
 
         indicators.forEach((indicator) => {
@@ -512,28 +512,41 @@ document.querySelectorAll(".contact-form").forEach((contactForm) => {
     }
 
     contactForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-
         if (!validateStep(getCurrentStep())) {
-            return;
-        }
-
-        if (contactForm.dataset.thankYouUrl) {
-            window.location.href = contactForm.dataset.thankYouUrl;
-            return;
-        }
-
-        contactForm.reset();
-
-        if (panels.length > 0) {
-            setStep(1);
-        }
-
-        if (status) {
-            status.textContent = "Thanks. We received your inquiry and will contact you soon.";
+            event.preventDefault();
         }
     });
+
+    // For static
+    // contactForm.addEventListener("submit", (event) => {
+    //     event.preventDefault();
+
+    //     if (!validateStep(getCurrentStep())) {
+    //         return;
+    //     }
+
+    //     if (contactForm.dataset.thankYouUrl) {
+    //         window.location.href = contactForm.dataset.thankYouUrl;
+    //         return;
+    //     }
+
+    //     contactForm.reset();
+
+    //     if (panels.length > 0) {
+    //         setStep(1);
+    //     }
+
+    //     if (status) {
+    //         status.textContent = "Thanks. We received your inquiry and will contact you soon.";
+    //     }
+    // });
+
 });
+// Added for CF7 forms
+document.addEventListener("wpcf7mailsent", () => {
+    window.location.href = "/contact/thank-you/";
+});
+
 
 if (navToggle && navMenu) {
     const navToggleLabel = navToggle.querySelector(".nav__toggle-label");

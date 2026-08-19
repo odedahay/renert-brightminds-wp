@@ -108,7 +108,7 @@ const applyFaqFilters = () => {
     let visibleCount = 0;
 
     faqItems.forEach((item) => {
-        const tags = item.dataset.faqTags ? item.dataset.faqTags.split(" ") : [];
+        const tags = item.dataset.faqTags ? item.dataset.faqTags.trim().split(/\s+/) : [];
         const itemText = item.textContent.toLowerCase();
         const matchesCategory = selectedCategory ? tags.includes(selectedCategory) : true;
         const matchesSearch = query ? itemText.includes(query) : true;
@@ -436,6 +436,71 @@ document.querySelectorAll(".contact-form").forEach((contactForm) => {
 
     const getCurrentStep = () => Number(contactForm.dataset.currentStep || "1");
 
+    const getStepControls = (step) => {
+        const panel = contactForm.querySelector(`[data-form-step="${step}"]`);
+
+        if (!panel) {
+            return [];
+        }
+
+        return Array.from(panel.querySelectorAll("input, select, textarea")).filter((control) => {
+            const ignoredTypes = ["button", "hidden", "image", "reset", "submit"];
+
+            return !control.disabled && !ignoredTypes.includes(control.type);
+        });
+    };
+
+    const isRequiredControl = (control) => {
+        const stepPanel = control.closest("[data-form-step]");
+        const isStepOneControl = stepPanel && stepPanel.dataset.formStep === "1";
+
+        return control.required
+            || control.getAttribute("aria-required") === "true"
+            || control.classList.contains("wpcf7-validates-as-required")
+            || isStepOneControl;
+    };
+
+    const isControlFilled = (control, controls) => {
+        if (control.type === "checkbox" || control.type === "radio") {
+            return controls.some((groupControl) => {
+                return groupControl.name === control.name && groupControl.checked;
+            });
+        }
+
+        if (control.type === "file") {
+            return control.files && control.files.length > 0;
+        }
+
+        return control.value.trim() !== "";
+    };
+
+    const isControlValid = (control, controls) => {
+        control.setCustomValidity("");
+
+        if (isRequiredControl(control) && !isControlFilled(control, controls)) {
+            return false;
+        }
+
+        return control.checkValidity();
+    };
+
+    const isStepValid = (step) => {
+        const controls = getStepControls(step);
+
+        return controls.every((control) => isControlValid(control, controls));
+    };
+
+    const updateStepActions = () => {
+        if (!nextButton) {
+            return;
+        }
+
+        const currentStep = getCurrentStep();
+        const isLastStep = currentStep >= panels.length;
+
+        nextButton.disabled = !isLastStep && !isStepValid(currentStep);
+    };
+
     const setStep = (step) => {
         contactForm.dataset.currentStep = String(step);
 
@@ -470,20 +535,21 @@ document.querySelectorAll(".contact-form").forEach((contactForm) => {
         if (status) {
             status.textContent = "";
         }
+
+        updateStepActions();
     };
 
     const validateStep = (step) => {
-        const panel = contactForm.querySelector(`[data-form-step="${step}"]`);
-
-        if (!panel) {
-            return true;
-        }
-
-        const invalidControl = Array.from(panel.querySelectorAll("input, select, textarea")).find((control) => {
-            return !control.checkValidity();
+        const controls = getStepControls(step);
+        const invalidControl = controls.find((control) => {
+            return !isControlValid(control, controls);
         });
 
         if (invalidControl) {
+            if (isRequiredControl(invalidControl) && !isControlFilled(invalidControl, controls)) {
+                invalidControl.setCustomValidity("Please fill out this field.");
+            }
+
             invalidControl.reportValidity();
             return false;
         }
@@ -496,14 +562,28 @@ document.querySelectorAll(".contact-form").forEach((contactForm) => {
     }
 
     if (nextButton) {
-        nextButton.addEventListener("click", () => {
+        nextButton.addEventListener("click", (event) => {
             const currentStep = getCurrentStep();
 
-            if (validateStep(currentStep)) {
-                setStep(currentStep + 1);
+            if (!validateStep(currentStep)) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                updateStepActions();
+                return;
             }
-        });
+
+            setStep(currentStep + 1);
+        }, true);
     }
+
+    contactForm.addEventListener("input", (event) => {
+        if (event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement || event.target instanceof HTMLTextAreaElement) {
+            event.target.setCustomValidity("");
+        }
+
+        updateStepActions();
+    });
+    contactForm.addEventListener("change", updateStepActions);
 
     if (previousButton) {
         previousButton.addEventListener("click", () => {

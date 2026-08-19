@@ -2041,6 +2041,11 @@ select.form-field__control option {
     padding-right: 32px;
 }
 
+.contact-form__next:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
 .contact-form__status {
     color: var(--color-navy);
     flex: 1 0 100%;

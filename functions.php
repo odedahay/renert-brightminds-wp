@@ -57,6 +57,12 @@ function calgarybrightminds_files()
 
 add_action('wp_enqueue_scripts', 'calgarybrightminds_files');
 
+function calgarybrightminds_features(){
+    add_theme_support('title-tag');
+}
+
+add_action('after_setup_theme', 'calgarybrightminds_features');
+
 function calgarybrightminds_resource_hints($urls, $relation_type)
 {
     if ('preconnect' === $relation_type) {
@@ -120,3 +126,88 @@ function cbm_validate_canadian_phone($result, $tag) {
 // (403) 555-1234
 // +1 403 555 1234
 // 1-403-555-1234
+
+// FAQ Custom POST Type
+function cbm_register_faq_post_type() {
+    register_post_type('faq', array(
+        'labels' => array(
+            'name' => 'FAQs',
+            'singular_name' => 'FAQ',
+            'add_new_item' => 'Add New FAQ',
+            'edit_item' => 'Edit FAQ',
+            'new_item' => 'New FAQ',
+            'view_item' => 'View FAQ',
+            'search_items' => 'Search FAQs',
+            'not_found' => 'No FAQs found',
+            'menu_name' => 'FAQs',
+        ),
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_icon' => 'dashicons-editor-help',
+        'supports' => array('title', 'editor', 'author', 'page-attributes'),
+        'has_archive' => false,
+        'rewrite' => array('slug' => 'faq'),
+        'show_in_rest' => true,
+    ));
+}
+add_action('init', 'cbm_register_faq_post_type');
+
+// FAQ Custom POST Type - > Category
+function cbm_register_faq_taxonomy() {
+    register_taxonomy('faq_category', 'faq', array(
+        'labels' => array(
+            'name' => 'FAQ Categories',
+            'singular_name' => 'FAQ Category',
+            'menu_name' => 'FAQ Categories',
+        ),
+        'public' => true,
+        'hierarchical' => true,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'show_in_rest' => true,
+        'rewrite' => array('slug' => 'faq-category'),
+    ));
+}
+add_action('init', 'cbm_register_faq_taxonomy');
+
+function cbm_add_faq_order_column($columns) {
+    $ordered_columns = array();
+    $author_label = $columns['author'] ?? 'Author';
+    unset($columns['author']);
+
+    foreach ($columns as $key => $label) {
+        $ordered_columns[$key] = $label;
+
+        if ('title' === $key) {
+            $ordered_columns['menu_order'] = 'Order';
+        }
+
+        if ('taxonomy-faq_category' === $key) {
+            $ordered_columns['author'] = $author_label;
+        }
+    }
+
+    if (!isset($ordered_columns['author'])) {
+        $ordered_columns['author'] = $author_label;
+    }
+
+    return $ordered_columns;
+}
+add_filter('manage_faq_posts_columns', 'cbm_add_faq_order_column');
+
+function cbm_render_faq_order_column($column, $post_id) {
+    if ('menu_order' !== $column) {
+        return;
+    }
+
+    echo esc_html(get_post_field('menu_order', $post_id));
+}
+add_action('manage_faq_posts_custom_column', 'cbm_render_faq_order_column', 10, 2);
+
+function cbm_make_faq_order_column_sortable($columns) {
+    $columns['menu_order'] = 'menu_order';
+
+    return $columns;
+}
+add_filter('manage_edit-faq_sortable_columns', 'cbm_make_faq_order_column_sortable');

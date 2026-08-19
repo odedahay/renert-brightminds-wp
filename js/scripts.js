@@ -85,6 +85,7 @@ const faqItems = document.querySelectorAll(".faq-item");
 const faqCategories = document.querySelectorAll(".faq-category");
 const faqCategoriesGroup = document.querySelector(".faq-categories");
 const faqEmptyMessage = document.querySelector(".faq-accordion__empty");
+const faqResetButton = document.querySelector("[data-faq-reset]");
 
 const closeFaqItem = (item) => {
     const trigger = item.querySelector(".faq-item__trigger");
@@ -100,9 +101,15 @@ const applyFaqFilters = () => {
     const activeCategory = document.querySelector(".faq-category.is-active");
     const selectedCategory = activeCategory ? activeCategory.dataset.faqCategory : "";
     const query = faqSearchInput ? faqSearchInput.value.trim().toLowerCase() : "";
+    const hasActiveFilters = Boolean(selectedCategory || query);
 
     if (faqCategoriesGroup) {
         faqCategoriesGroup.classList.toggle("is-hidden", Boolean(query));
+    }
+
+    if (faqResetButton) {
+        faqResetButton.classList.toggle("is-active", hasActiveFilters);
+        faqResetButton.disabled = !hasActiveFilters;
     }
 
     let visibleCount = 0;
@@ -145,6 +152,22 @@ faqCategories.forEach((category) => {
 if (faqSearchInput) {
     faqSearchInput.addEventListener("input", applyFaqFilters);
 }
+
+if (faqResetButton) {
+    faqResetButton.addEventListener("click", () => {
+        if (faqSearchInput) {
+            faqSearchInput.value = "";
+        }
+
+        faqCategories.forEach((category) => {
+            category.classList.remove("is-active");
+        });
+
+        applyFaqFilters();
+    });
+}
+
+applyFaqFilters();
 
 document.querySelectorAll("[data-schedule-view]").forEach((scheduleView) => {
     const viewButtons = Array.from(scheduleView.querySelectorAll("[data-schedule-view-button]"));

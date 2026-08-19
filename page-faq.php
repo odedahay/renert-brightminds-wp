@@ -53,6 +53,7 @@ $cbm_faq_category_icons = array(
                     <input class="faq-search__input" type="search" placeholder="Search for a question..." autocomplete="off">
                     <img class="faq-search__icon" src="<?php echo $cbm_faq_asset('assets/icons/faq-search.png'); ?>" alt="">
                 </label>
+               
             </header>
 
             <?php if (!is_wp_error($cbm_faq_categories) && $cbm_faq_categories) : ?>
@@ -67,6 +68,15 @@ $cbm_faq_category_icons = array(
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+            <div class="faq-search__inner_reset">
+                <button class="faq-search__reset" type="button" data-faq-reset aria-label="Reset FAQ filters">
+                    <span aria-hidden="true">
+                        <img class="faq-search__reset-icon" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/refresh-line.svg')); ?>" alt="">
+                    </span>
+                    <span class="faq-search__reset-label">Reset</span>
+                </button>
+            </div>
+
         </div>
     </section>
 
@@ -90,15 +100,15 @@ $cbm_faq_category_icons = array(
                     $terms = get_the_terms(get_the_ID(), 'faq_category');
                     $tags = (!is_wp_error($terms) && $terms) ? implode(' ', wp_list_pluck($terms, 'slug')) : '';
             ?>
-                <article class="faq-item" data-faq-tags="<?php echo esc_attr($tags); ?>">
-                    <button class="faq-item__trigger" type="button" aria-expanded="false">
-                        <span><?php the_title(); ?></span>
-                        <img class="faq-item__icon" src="<?php echo $cbm_faq_asset('assets/icons/arrow-down.svg'); ?>" alt="">
-                    </button>
-                    <div class="faq-item__panel">
-                        <?php the_content(); ?>
-                    </div>
-                </article>
+                    <article class="faq-item" data-faq-tags="<?php echo esc_attr($tags); ?>">
+                        <button class="faq-item__trigger" type="button" aria-expanded="false">
+                            <span><?php the_title(); ?></span>
+                            <img class="faq-item__icon" src="<?php echo $cbm_faq_asset('assets/icons/arrow-down.svg'); ?>" alt="">
+                        </button>
+                        <div class="faq-item__panel">
+                            <?php the_content(); ?>
+                        </div>
+                    </article>
             <?php
                 endwhile;
             endif;

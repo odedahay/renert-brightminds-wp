@@ -68,113 +68,50 @@
         <h2 class="section-title testimonials__title" id="testimonials-title">Why Families Choose Bright Minds</h2>
         <div class="testimonials__viewport swiper" aria-label="Family testimonials">
             <div class="testimonials__track swiper-wrapper">
-                <article class="review-card swiper-slide">
-                    <div class="review-card__profile">
-                        <img class="review-card__avatar" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/avatar-circle.svg')); ?>" alt="Avatar">
-                        <div class="review-card__identity">
-                            <div class="review-card__name-row">
-                                <h3 class="review-card__name">Tamar Amit</h3>
-                                <img class="review-card__badge" src="<?php echo esc_url(get_theme_file_uri('/assets/images/review-badge.png')) ?>" alt="Verified review">
-                            </div>
-                            <p class="review-card__location">Calgary, Canada</p>
-                        </div>
-                    </div>
-                    <div class="review-card__stars" aria-label="5 out of 5 stars">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                    </div>
-                    <p class="review-card__copy" data-review-copy>We couldn't be happier with the Bright Minds math program at Renert School. Both of our children have benefited tremendously from the program and enjoy attending every week. The teachers are wonderful! Knowledgeable, engaging, and great at making math fun through games and interactive activities. We love that classes are small, allowing for personal attention, and that each child can progress at their own pace and move up as soon as they're ready.</p>
-                    <button class="review-card__more" type="button">Continue Reading</button>
-                </article>
 
-                <article class="review-card swiper-slide">
-                    <div class="review-card__profile">
-                        <img class="review-card__avatar" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/avatar-circle.svg')); ?>" alt="">
-                        <div class="review-card__identity">
-                            <div class="review-card__name-row">
-                                <h3 class="review-card__name">Keegan Raines</h3>
-                                <img class="review-card__badge" src="<?php echo esc_url(get_theme_file_uri('/assets/images/review-badge.png')); ?>" alt="Verified review">
+                <?php
+                $testimonials = new WP_Query(array(
+                    'post_type' => 'testimonial',
+                    'posts_per_page' => -1,
+                    'orderby' => 'menu_order',
+                    'order' => 'ASC'
+                ));
+                ?>
+                <?php if ($testimonials->have_posts()) : ?>
+                    <?php while ($testimonials->have_posts()) : $testimonials->the_post(); ?>
+                        <?php
+                        $location = get_post_meta(get_the_ID(), '_cbm_testimonial_location', true) ?: 'Calgary, Canada';
+                        $rating = get_post_meta(get_the_ID(), '_cbm_testimonial_rating', true) ?: 5;
+                        $verified = get_post_meta(get_the_ID(), '_cbm_testimonial_verified', true);
+                        $avatar = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail') ?: get_theme_file_uri('/assets/icons/avatar-circle.svg');
+                        $review_text = wp_strip_all_tags(get_post_field('post_content', get_the_ID()));
+                        ?>
+                        <article class="review-card swiper-slide">
+                            <div class="review-card__profile">
+                                <img class="review-card__avatar" src="<?php echo esc_url($avatar); ?>" alt="<?php the_title(); ?>">
+                                <div class="review-card__identity">
+                                    <div class="review-card__name-row">
+                                        <h3 class="review-card__name"><?php the_title(); ?></h3>
+                                        <?php if ('1' === $verified) : ?>
+                                            <img class="review-card__badge" src="<?php echo esc_url(get_theme_file_uri('/assets/images/review-badge.png')) ?>" alt="Verified Review">
+                                        <?php endif; ?>
+                                    </div>
+                                    <p class="review-card__location"><?php echo esc_html($location); ?></p>
+                                </div>
                             </div>
-                            <p class="review-card__location">Calgary, Canada</p>
-                        </div>
-                    </div>
-                    <div class="review-card__stars" aria-label="5 out of 5 stars">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                    </div>
-                    <p class="review-card__copy" data-review-copy>We chose Bright Minds because we were moving abroad and the education quality was not the same. Our kids kept motivated, had great instructors, and continued to progress at their own pace. They won math competitions and were labeled human calculators by classmates. The experience and practice gave them strong mental math and confidence as they navigated moving schools.
-                        nd that each child can progress at their own pace and move up as soon as they're ready. We love that classes are small, allowing for personal attention, and that each child can progress at their own pace and move up as soon as they're ready
-                    </p>
-                </article>
+                            <div class="review-card__stars" aria-label="<?php echo esc_attr($rating); ?> out of 5 stars">
+                                <?php for ($i = 1; $i <= (int) $rating; $i++) : ?>
+                                    <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="<?php echo esc_attr($rating); ?> out of 5 stars">
+                                <?php endfor; ?>
+                               
+                            </div>
+                            <p class="review-card__copy" data-review-copy><?php echo esc_html($review_text); ?></p>
+                        </article>
+                    <?php endwhile; ?>
+                    <?php wp_reset_postdata(); ?>
 
-                <article class="review-card swiper-slide">
-                    <div class="review-card__profile">
-                        <img class="review-card__avatar" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/avatar-circle.svg')); ?>" alt="">
-                        <div class="review-card__identity">
-                            <div class="review-card__name-row">
-                                <h3 class="review-card__name">Tara Ikeda</h3>
-                                <img class="review-card__badge" src="<?php echo esc_url(get_theme_file_uri('/assets/images/review-badge.png')); ?>" alt="Verified review">
-                            </div>
-                            <p class="review-card__location">Calgary, Canada</p>
-                        </div>
-                    </div>
-                    <div class="review-card__stars" aria-label="5 out of 5 stars">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                    </div>
-                    <p class="review-card__copy" data-review-copy>My son has been enrolled in both math and literacy streams with Bright Minds for the past four years. I can't imagine learning without Bright Minds.</p>
-                </article>
-
-                <article class="review-card swiper-slide">
-                    <div class="review-card__profile">
-                        <img class="review-card__avatar" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/avatar-circle.svg')); ?>" alt="">
-                        <div class="review-card__identity">
-                            <div class="review-card__name-row">
-                                <h3 class="review-card__name">Tara Ikeda</h3>
-                                <img class="review-card__badge" src="<?php echo esc_url(get_theme_file_uri('/assets/images/review-badge.png')); ?>" alt="Verified review">
-                            </div>
-                            <p class="review-card__location">Calgary, Canada</p>
-                        </div>
-                    </div>
-                    <div class="review-card__stars" aria-label="5 out of 5 stars">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                    </div>
-                    <p class="review-card__copy" data-review-copy>My son has been enrolled in both math and literacy streams with Bright Minds for the past four years. I can't imagine learning without Bright Minds. Leave the teaching to the experts! The support is top notch, the program is amazing and the teachers are rock stars!</p>
-                </article>
-
-                <article class="review-card swiper-slide">
-                    <div class="review-card__profile">
-                        <img class="review-card__avatar" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/avatar-circle.svg')); ?>" alt="">
-                        <div class="review-card__identity">
-                            <div class="review-card__name-row">
-                                <h3 class="review-card__name">Tara Ikeda</h3>
-                                <img class="review-card__badge" src="<?php echo esc_url(get_theme_file_uri('/assets/images/review-badge.png')); ?>" alt="Verified review">
-                            </div>
-                            <p class="review-card__location">Calgary, Canada</p>
-                        </div>
-                    </div>
-                    <div class="review-card__stars" aria-label="5 out of 5 stars">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/star.png')); ?>" alt="">
-                    </div>
-                    <p class="review-card__copy" data-review-copy>My son has been enrolled in both math and literacy streams with Bright Minds for the past </p>
-                </article>
+                <?php endif; ?>
+                
             </div>
             <div class="testimonials__pagination swiper-pagination"></div>
         </div>

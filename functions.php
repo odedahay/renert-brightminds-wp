@@ -59,6 +59,7 @@ add_action('wp_enqueue_scripts', 'calgarybrightminds_files');
 
 function calgarybrightminds_features(){
     add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
 }
 
 add_action('after_setup_theme', 'calgarybrightminds_features');
@@ -127,6 +128,102 @@ function cbm_validate_canadian_phone($result, $tag) {
 // +1 403 555 1234
 // 1-403-555-1234
 
+// Testmonials Custom Post Type 
+
+function cbm_register_testimonial_post_type(){
+    register_post_type( 'testimonial', array(
+        'labels' => array(
+            'name'=>'Testimonials',
+            'singular_name' => 'Testimonial',
+            'add_new_item' => 'Add New Testimonial',
+            'edit_item' => 'Edit Testimonial',
+            'new_item' => 'New Testimonial',
+            'view_item' => 'View Testimonial',
+            'search_items' => 'Search Testimonials',
+            'not_found' => 'No testimonials found',
+            'menu_name' => 'Testimonials',
+        ),
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_icon' => 'dashicons-format-quote',
+        'supports' => array('title', 'editor', 'thumbnail', 'page-attributes'),
+        'has_archive' => false,
+        'rewrite' => array('slug' => 'testimonial'),
+        'show_in_rest' => true,
+    ));
+}
+add_action('init', 'cbm_register_testimonial_post_type');
+
+// Testimonial CPT admin
+// CPT for Testimonials
+
+function cbm_add_testimonial_meta_boxes() {
+    add_meta_box(
+        'cbm_testimonial_details',
+        'Testimonial Details',
+        'cbm_render_testimonial_meta_box',
+        'testimonial',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'cbm_add_testimonial_meta_boxes');
+
+function cbm_render_testimonial_meta_box($post) {
+    wp_nonce_field('cbm_save_testimonial_details', 'cbm_testimonial_nonce');
+
+    $location = get_post_meta($post->ID, '_cbm_testimonial_location', true);
+    $rating = get_post_meta($post->ID, '_cbm_testimonial_rating', true);
+    $verified = get_post_meta($post->ID, '_cbm_testimonial_verified', true);
+    ?>
+
+    <p>
+        <label for="cbm_testimonial_location"><strong>Location</strong></label><br>
+        <input type="text" id="cbm_testimonial_location" name="cbm_testimonial_location" value="<?php echo esc_attr($location); ?>" style="width:100%;">
+    </p>
+
+    <p>
+        <label for="cbm_testimonial_rating"><strong>Rating</strong></label><br>
+        <select id="cbm_testimonial_rating" name="cbm_testimonial_rating">
+            <?php for ($i = 1; $i <= 5; $i++) : ?>
+                <option value="<?php echo esc_attr($i); ?>" <?php selected((int) $rating, $i); ?>>
+                    <?php echo esc_html($i); ?> Star<?php echo $i > 1 ? 's' : ''; ?>
+                </option>
+            <?php endfor; ?>
+        </select>
+    </p>
+
+    <p>
+        <label>
+            <input type="checkbox" name="cbm_testimonial_verified" value="1" <?php checked($verified, '1'); ?>>
+            Verified review
+        </label>
+    </p>
+
+    <?php
+}
+
+function cbm_save_testimonial_details($post_id) {
+    if (!isset($_POST['cbm_testimonial_nonce']) || !wp_verify_nonce($_POST['cbm_testimonial_nonce'], 'cbm_save_testimonial_details')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    update_post_meta($post_id, '_cbm_testimonial_location', sanitize_text_field($_POST['cbm_testimonial_location'] ?? ''));
+    update_post_meta($post_id, '_cbm_testimonial_rating', absint($_POST['cbm_testimonial_rating'] ?? 5));
+    update_post_meta($post_id, '_cbm_testimonial_verified', isset($_POST['cbm_testimonial_verified']) ? '1' : '0');
+}
+add_action('save_post_testimonial', 'cbm_save_testimonial_details');
+
+
 // FAQ Custom POST Type
 function cbm_register_faq_post_type() {
     register_post_type('faq', array(
@@ -152,6 +249,7 @@ function cbm_register_faq_post_type() {
     ));
 }
 add_action('init', 'cbm_register_faq_post_type');
+
 
 // FAQ Custom POST Type - > Category
 function cbm_register_faq_taxonomy() {

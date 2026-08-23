@@ -11,9 +11,8 @@
         </div>
         <address class="footer__address">
             Renert School Campus<br>
-            (Grey portable by soccer field)<br>
-            14 Royal Vista Link NW<br>
-            Calgary, AB T3R 0K4
+            32 Royal Vista Drive NW<br>	
+            Calgary, AB T3R 1R8
         </address>
     </div>
 </footer>

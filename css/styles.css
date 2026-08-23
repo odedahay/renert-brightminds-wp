@@ -61,11 +61,29 @@ button {
     padding: 24px clamp(24px, 5vw, 70px);
 }
 
+.announcement__dropdown {
+    margin-left: auto;
+    position: relative;
+}
+
+.announcement__dropdown::after {
+    content: "";
+    height: 12px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 100%;
+}
+
 .announcement__link {
     align-items: center;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
     display: inline-flex;
     gap: 10px;
-    margin-left: auto;
+    padding: 0;
 }
 
 .announcement__text {
@@ -76,7 +94,58 @@ button {
 
 .announcement__icon {
     height: 12.6px;
+    transition: transform 160ms ease;
     width: 20.3px;
+}
+
+.announcement__menu {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    color: var(--color-text);
+    list-style: none;
+    margin: 12px 0 0;
+    min-width: 250px;
+    opacity: 0;
+    padding: 8px;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    transform: translateY(-6px);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+    visibility: hidden;
+    z-index: 20;
+}
+
+.announcement__dropdown:hover .announcement__menu,
+.announcement__dropdown:focus-within .announcement__menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.announcement__dropdown:hover .announcement__icon,
+.announcement__dropdown:focus-within .announcement__icon {
+    transform: rotate(180deg);
+}
+
+.announcement__menu-link {
+    border-radius: 6px;
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    padding: 12px 14px;
+    white-space: nowrap;
+}
+
+.announcement__menu-link:hover,
+.announcement__menu-link:focus-visible {
+    background: var(--color-cream);
+    color: var(--color-blue);
 }
 
 .nav {
@@ -349,7 +418,7 @@ button {
 .enroll-strip__inner {
     align-items: center;
     display: flex;
-    gap: clamp(32px, 13vw, 205px);
+    gap: clamp(32px, 6vw, 205px);
     justify-content: center;
 }
 
@@ -2580,8 +2649,19 @@ select.form-field__control option {
         padding: 14px 20px;
     }
 
-    .announcement__link {
+    .announcement__dropdown {
         margin-left: 0;
+    }
+
+    .announcement__menu {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, -6px);
+    }
+
+    .announcement__dropdown:hover .announcement__menu,
+    .announcement__dropdown:focus-within .announcement__menu {
+        transform: translate(-50%, 0);
     }
 
     .announcement__text {
@@ -2682,8 +2762,9 @@ select.form-field__control option {
     }
 
     .enroll-strip__inner {
-        align-items: flex-start;
+        align-items: center;
         flex-direction: column;
+        text-align: center;
     }
 
     .schedule-calendar {
@@ -2705,17 +2786,18 @@ select.form-field__control option {
     }
 
     .results__item {
-        align-items: flex-start;
+        align-items: center;
         flex-direction: column;
         gap: 12px;
+        text-align:center;
     }
 
     .results__label {
-        order: 2;
+        order: 1;
     }
 
     .results__value {
-        order: 1;
+        order: 2;
         text-align: left;
     }
 

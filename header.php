@@ -12,10 +12,20 @@
 
     <header class="site-header">
         <div class="announcement">
-            <a class="announcement__link" href="#" aria-label="View other Renert programs">
-                <span class="announcement__text">Other RENERT Programs</span>
-                <img class="announcement__icon" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/arrow-down.svg')); ?>" alt="">
-            </a>
+            <div class="announcement__dropdown">
+                <button class="announcement__link" type="button" aria-haspopup="true">
+                    <span class="announcement__text">Other RENERT Programs</span>
+                    <img class="announcement__icon" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/arrow-down.svg')); ?>" alt="">
+                </button>
+                <ul class="announcement__menu" aria-label="Other RENERT Programs">
+                    <li class="announcement__menu-item">
+                        <a class="announcement__menu-link" href="https://renertschool.ca/" target="_blank">Renert School</a>
+                    </li>
+                    <!-- <li class="announcement__menu-item">
+                        <a class="announcement__menu-link" href="#">Renert Preschool &amp; JK</a>
+                    </li> -->
+                </ul>
+            </div>
         </div>
 
         <nav class="nav" aria-label="Main navigation">

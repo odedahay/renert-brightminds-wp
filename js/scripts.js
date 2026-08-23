@@ -16,23 +16,28 @@ if (nav) {
 const testimonialsViewport = document.querySelector(".testimonials__viewport");
 
 if (window.Swiper && testimonialsViewport) {
+    const testimonialSlides = testimonialsViewport.querySelectorAll(".swiper-slide");
+    const canLoopTestimonials = testimonialSlides.length >= 6;
+
     new Swiper(testimonialsViewport, {
-        autoplay: {
+        autoplay: canLoopTestimonials ? {
             delay: 3500,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
-        },
+        } : false,
         centeredSlides: true,
         grabCursor: true,
-        initialSlide: 1,
-        loop: true,
+        initialSlide: testimonialSlides.length > 2 ? 1 : 0,
+        loop: canLoopTestimonials,
         pagination: {
             clickable: true,
             el: ".testimonials__pagination",
         },
+        rewind: !canLoopTestimonials && testimonialSlides.length > 1,
         slidesPerView: "auto",
         spaceBetween: 25,
         speed: 550,
+        watchOverflow: true,
     });
 }
 

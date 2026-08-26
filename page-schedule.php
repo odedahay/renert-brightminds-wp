@@ -14,9 +14,12 @@ $cbm_schedule_url = esc_url(home_url('/schedule/'));
     the_post();
 } ?>
 
-<main class="schedule-page">
+    <main class="schedule-page">
     <section class="hero" aria-labelledby="schedule-hero-title">
-        <img class="hero__image" src="<?php echo $cbm_schedule_asset('assets/images/schedule-hero-banner.png'); ?>" alt="Bright Minds student and parent">
+        <picture>
+            <source media="(max-width: 860px)" srcset="<?php echo $cbm_schedule_asset('assets/images/schedule-hero-banner-m.png'); ?>">
+            <img class="hero__image" src="<?php echo $cbm_schedule_asset('assets/images/schedule-hero-banner.png'); ?>" alt="Bright Minds student and parent">
+        </picture>
         <div class="hero__content">
             <p class="hero__eyebrow">
                 <img class="hero__eyebrow-dot" src="<?php echo $cbm_schedule_asset('assets/icons/enrolment-dot.svg'); ?>" alt="">

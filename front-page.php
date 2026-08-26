@@ -2,7 +2,10 @@
 
 <main>
     <section class="hero" aria-labelledby="hero-title">
-        <img class="hero__image" src="<?php echo esc_url(get_theme_file_uri('/assets/images/hero-banner.png')); ?>" alt="Renert Bright Minds students learning math and writing">
+        <picture>
+            <source media="(max-width: 860px)" srcset="<?php echo esc_url(get_theme_file_uri('/assets/images/hero-banner-m.png')); ?>">
+            <img class="hero__image" src="<?php echo esc_url(get_theme_file_uri('/assets/images/hero-banner.png')); ?>" alt="Renert Bright Minds students learning math and writing">
+        </picture>
         <div class="hero__content">
             <p class="hero__eyebrow">
                 <img class="hero__eyebrow-dot" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/enrolment-dot.svg')); ?>" alt="">

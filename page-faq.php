@@ -6,6 +6,7 @@ $cbm_faq_asset = static function ($path) {
 };
 
 $cbm_faq_contact_url = esc_url(home_url('/contact/'));
+$cbm_faq_initial_count = 10;
 $cbm_faq_categories = get_terms(array(
     'taxonomy' => 'faq_category',
     'hide_empty' => false,
@@ -80,7 +81,7 @@ $cbm_faq_category_icons = array(
         </div>
     </section>
 
-    <section class="faq-accordion" id="faqs" aria-label="Frequently asked questions">
+    <section class="faq-accordion" id="faqs" aria-label="Frequently asked questions" data-faq-initial-count="<?php echo esc_attr($cbm_faq_initial_count); ?>">
         <div class="faq-accordion__list">
             <?php
             $faqs = new WP_Query(array(
@@ -94,13 +95,16 @@ $cbm_faq_category_icons = array(
             ));
 
             if ($faqs->have_posts()) :
+                $faq_index = 0;
+
                 while ($faqs->have_posts()) :
                     $faqs->the_post();
 
                     $terms = get_the_terms(get_the_ID(), 'faq_category');
                     $tags = (!is_wp_error($terms) && $terms) ? implode(' ', wp_list_pluck($terms, 'slug')) : '';
+                    $is_extra_faq = $faq_index >= $cbm_faq_initial_count;
             ?>
-                    <article class="faq-item" data-faq-tags="<?php echo esc_attr($tags); ?>">
+                    <article class="faq-item" data-faq-tags="<?php echo esc_attr($tags); ?>" <?php echo $is_extra_faq ? 'hidden' : ''; ?>>
                         <button class="faq-item__trigger" type="button" aria-expanded="false">
                             <span><?php the_title(); ?></span>
                             <img class="faq-item__icon" src="<?php echo $cbm_faq_asset('assets/icons/arrow-down.svg'); ?>" alt="">
@@ -110,6 +114,7 @@ $cbm_faq_category_icons = array(
                         </div>
                     </article>
             <?php
+                    $faq_index += 1;
                 endwhile;
             endif;
 
@@ -117,6 +122,9 @@ $cbm_faq_category_icons = array(
             ?>
         </div>
         <p class="faq-accordion__empty" role="status">No matching questions found.</p>
+        <div class="faq-accordion__view-more" data-faq-show-all-container <?php echo $faqs->post_count <= $cbm_faq_initial_count ? 'hidden' : ''; ?>>
+            <button class="button button--primary faq-accordion__more-button" type="button" data-faq-show-all>View More Questions</button>
+        </div>
     </section>
 
     <section class="cta faq-cta" id="assessment" aria-labelledby="cta-title">
@@ -124,7 +132,7 @@ $cbm_faq_category_icons = array(
             <h2 class="cta__title" id="cta-title">Ready to build your child's academic muscle?</h2>
             <div class="faq-cta__actions">
                 <a class="button button--primary" href="#enrol">Enrol Now</a>
-                <a class="button button--secondary" href="<?php echo esc_url(home_url('/schedule/')); ?>">View Schedule</a>
+                <!-- <a class="button button--secondary" href="<?php echo esc_url(home_url('/schedule/')); ?>">View Schedule</a> -->
             </div>
         </div>
     </section>

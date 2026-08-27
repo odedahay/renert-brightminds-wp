@@ -1248,6 +1248,16 @@ button {
     margin: 0;
 }
 
+.schedule-event__excerpt {
+    color: #4a5568;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.schedule-event__excerpt p {
+    margin: 0;
+}
+
 .schedule-event__meta {
     display: flex;
     flex-wrap: wrap;
@@ -1293,8 +1303,12 @@ button {
 
 .schedule-event__more-link {
     align-items: center;
+    background: transparent;
+    border: 0;
     color: var(--color-orange);
+    cursor: pointer;
     display: inline-flex;
+    font-family: inherit;
     font-size: 1.15rem;
     font-weight: 600;
     gap: 2px;
@@ -1314,12 +1328,20 @@ button {
     color:#f0933a;
 }
 
-.schedule-events__view-more-button a{
+.schedule-events__view-more-button a,
+.schedule-events__view-more-button button {
     display: flex;
     justify-content: center;
     aling-item: center;
     margin: 15px auto;
     max-width: 1280px;
+}
+
+.schedule-calendar__empty {
+    color: #4a5568;
+    font-size: 1rem;
+    margin: 0;
+    text-align: center;
 }
 
 .schedule-calendar__cta {
@@ -2477,6 +2499,25 @@ select.form-field__control option {
 
 .faq-accordion__empty.is-visible {
     display: block;
+}
+
+.faq-accordion__view-more {
+    display: flex;
+    justify-content: center;
+    margin: 32px auto 0;
+    max-width: 1040px;
+}
+
+.faq-accordion__view-more[hidden],
+.faq-item[hidden] {
+    display: none;
+}
+
+.faq-accordion__more-button {
+    font-size: 1.125rem;
+    min-height: 56px;
+    padding-left: 28px;
+    padding-right: 28px;
 }
 
 .faq-item {

@@ -11,8 +11,8 @@
                 <img class="hero__eyebrow-dot" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/enrolment-dot.svg')); ?>" alt="">
                 <span>ENROLMENT NOW OPEN</span>
             </p>
-            <h1 class="hero__title" id="hero-title">Build academic muscle</h1>
-            <p class="hero__copy">After-school math and writing programs that help students become stronger learners. Available online or in person.</p>
+            <h1 class="hero__title" id="hero-title">Kids Are Smart</h1>
+            <p class="hero__copy">Renert Bright Minds believes kids are capable of more than we expect. Our afterschool math and writing programs give them the challenge and space to discover what they can do. Weekly classes are available online or in person.</p>
             <div class="hero__action">
                 <a class="button button--primary" href="#assessment">Book a FREE Assessment</a>
                 <p class="hero__note">Free 30-minute assessment · Ages 5+</p>
@@ -35,7 +35,7 @@
                 <a class="button button--primary" href="#assessment">Book a FREE Assessment</a>
             </div>
             <div class="split-section__media">
-                <img class="split-section__image" src="<?php echo esc_url(get_theme_file_uri('/assets/images/renert-school-building.png')); ?>" alt="Renert School campus building">
+                <img class="split-section__image" src="<?php echo esc_url(get_theme_file_uri('/assets/images/renert-school-building.jpg')); ?>" alt="Renert School campus building">
             </div>
         </div>
     </section>
@@ -132,8 +132,8 @@
                 <dd class="results__value"><span class="odometer results__odometer" data-count="1300">0</span><span class="results__suffix">+</span></dd>
             </div>
             <div class="results__item">
-                <dt class="results__label">Parent recommendation rate</dt>
-                <dd class="results__value"><span class="odometer results__odometer" data-count="96">0</span><span class="results__suffix">%</span></dd>
+                <dt class="results__label">Renert-developed materials</dt>
+                <dd class="results__value"><span class="odometer results__odometer" data-count="100">0</span><span class="results__suffix">%</span></dd>
             </div>
             <div class="results__item">
                 <dt class="results__label">Homework Help sessions</dt>

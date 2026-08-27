@@ -128,8 +128,42 @@ function cbm_validate_canadian_phone($result, $tag) {
 // +1 403 555 1234
 // 1-403-555-1234
 
-// Testmonials Custom Post Type 
+// Event Posts
+function cbm_schedule_post_types(){
+    register_post_type('schedule', array(
+        'public' => true,
+        'show_in_rest' => true,
+        'show_in_menu' => true,
+        'menu_icon' => 'dashicons-calendar-alt',
+        'supports' => array('title', 'editor', 'thumbnail'),
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'schedules'),
+        'labels' => array(
+            'name'=>'Schedules',
+            'singular_name' => 'Schedule',
+            'add_new_item' => 'Add New Schedule',
+            'edit_item' => 'Edit Schedule',
+            'new_item' => 'New Schedule',
+            'search_items' => 'Search Schedule',
+            'not_found' => 'No Schedules found',
+            'menu_name' => 'Schedules',
+        )
+    ));
+}
 
+add_action('init', 'cbm_schedule_post_types');
+
+
+// to active class:
+add_filter('body_class', function ($classes) {
+    if (is_singular('schedule')) {
+        $classes[] = 'event-detail-template';
+    }
+
+    return $classes;
+});
+
+// Testmonials Custom Post Type
 function cbm_register_testimonial_post_type(){
     register_post_type( 'testimonial', array(
         'labels' => array(

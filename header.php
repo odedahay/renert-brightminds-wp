@@ -11,6 +11,7 @@
     <?php wp_body_open(); ?>
 
     <header class="site-header">
+
         <div class="announcement">
             <div class="announcement__dropdown">
                 <button class="announcement__link" type="button" aria-haspopup="true">
@@ -21,9 +22,6 @@
                     <li class="announcement__menu-item">
                         <a class="announcement__menu-link" href="https://renertschool.ca/" target="_blank">Renert School</a>
                     </li>
-                    <!-- <li class="announcement__menu-item">
-                        <a class="announcement__menu-link" href="#">Renert Preschool &amp; JK</a>
-                    </li> -->
                 </ul>
             </div>
         </div>
@@ -43,7 +41,7 @@
             <div class="nav__menu" id="primary-menu">
                 <ul class="nav__list">
                     <li class="nav__item"><a class="nav__link <?php echo is_front_page() ? 'active' : ''; ?>" href="<?php echo esc_url(home_url('/')); ?>">Home</a></li>
-                    <li class="nav__item"><a class="nav__link <?php echo is_page('schedule') ? 'active' : ''; ?>" href="<?php echo esc_url(home_url('/schedule')); ?>">Schedule</a></li>
+                    <li class="nav__item"><a class="nav__link <?php echo (is_page('schedule') || is_post_type_archive('schedule') || is_singular('schedule')) ? 'active' : ''; ?>" href="<?php echo esc_url(home_url('/schedule')); ?>">Schedule</a></li>
                     <li class="nav__item"><a class="nav__link <?php echo is_page('contact') ? 'active' : ''; ?>" href="<?php echo esc_url(home_url('/contact')); ?>">Contact</a></li>
                     <li class="nav__item"><a class="nav__link <?php echo is_page('faq') ? 'active' : ''; ?>" href="<?php echo esc_url(home_url('/faq')); ?>">FAQs</a></li>
                 </ul>

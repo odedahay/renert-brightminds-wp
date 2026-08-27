@@ -91,6 +91,11 @@ const faqCategories = document.querySelectorAll(".faq-category");
 const faqCategoriesGroup = document.querySelector(".faq-categories");
 const faqEmptyMessage = document.querySelector(".faq-accordion__empty");
 const faqResetButton = document.querySelector("[data-faq-reset]");
+const faqAccordion = document.querySelector(".faq-accordion");
+const faqShowAllButton = document.querySelector("[data-faq-show-all]");
+const faqShowAllContainer = document.querySelector("[data-faq-show-all-container]");
+const faqInitialLimit = faqAccordion ? Number(faqAccordion.dataset.faqInitialCount || 5) : 5;
+let faqShowAll = false;
 
 const closeFaqItem = (item) => {
     const trigger = item.querySelector(".faq-item__trigger");
@@ -119,14 +124,16 @@ const applyFaqFilters = () => {
 
     let visibleCount = 0;
 
-    faqItems.forEach((item) => {
+    faqItems.forEach((item, index) => {
         const tags = item.dataset.faqTags ? item.dataset.faqTags.trim().split(/\s+/) : [];
         const itemText = item.textContent.toLowerCase();
         const matchesCategory = selectedCategory ? tags.includes(selectedCategory) : true;
         const matchesSearch = query ? itemText.includes(query) : true;
-        const shouldShow = matchesCategory && matchesSearch;
+        const isLimited = !faqShowAll && !hasActiveFilters && index >= faqInitialLimit;
+        const shouldShow = matchesCategory && matchesSearch && !isLimited;
 
-        item.classList.toggle("is-hidden", !shouldShow);
+        item.hidden = isLimited;
+        item.classList.toggle("is-hidden", !matchesCategory || !matchesSearch);
 
         if (shouldShow) {
             visibleCount += 1;
@@ -140,6 +147,10 @@ const applyFaqFilters = () => {
     if (faqEmptyMessage) {
         faqEmptyMessage.classList.toggle("is-visible", visibleCount === 0);
         faqEmptyMessage.textContent = query ? `No matching questions found - ${query}` : "No matching questions found.";
+    }
+
+    if (faqShowAllContainer) {
+        faqShowAllContainer.hidden = faqShowAll || hasActiveFilters || faqItems.length <= faqInitialLimit;
     }
 };
 
@@ -168,6 +179,13 @@ if (faqResetButton) {
             category.classList.remove("is-active");
         });
 
+        applyFaqFilters();
+    });
+}
+
+if (faqShowAllButton) {
+    faqShowAllButton.addEventListener("click", () => {
+        faqShowAll = true;
         applyFaqFilters();
     });
 }
@@ -280,6 +298,8 @@ document.querySelectorAll("[data-schedule-view]").forEach((scheduleView) => {
             const eventCard = eventItem.card.cloneNode(true);
 
             eventCard.removeAttribute("id");
+            eventCard.removeAttribute("hidden");
+            eventCard.removeAttribute("data-schedule-extra");
             eventCard.classList.add("schedule-event--popup");
             popupEvents.append(eventCard);
         });
@@ -453,6 +473,23 @@ document.querySelectorAll("[data-schedule-view]").forEach((scheduleView) => {
     });
 
     renderCalendar();
+});
+
+document.querySelectorAll("[data-schedule-show-all]").forEach((showAllButton) => {
+    showAllButton.addEventListener("click", () => {
+        const scheduleEvents = showAllButton.closest(".schedule-events");
+
+        if (!scheduleEvents) {
+            return;
+        }
+
+        scheduleEvents.querySelectorAll("[data-schedule-extra]").forEach((scheduleEvent) => {
+            scheduleEvent.hidden = false;
+            scheduleEvent.removeAttribute("data-schedule-extra");
+        });
+
+        showAllButton.hidden = true;
+    });
 });
 
 document.querySelectorAll(".contact-form").forEach((contactForm) => {
@@ -652,6 +689,7 @@ document.querySelectorAll(".contact-form").forEach((contactForm) => {
 });
 // Added for CF7 forms
 document.addEventListener("wpcf7mailsent", () => {
+    //window.location.href = "/dev/contact/thank-you/";
     window.location.href = "/contact/thank-you/";
 });
 

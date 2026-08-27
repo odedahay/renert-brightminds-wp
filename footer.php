@@ -10,7 +10,7 @@
             </ul>
         </div>
         <address class="footer__address">
-            Renert School Campus<br>
+            Renert Bright Minds<br>
             32 Royal Vista Drive NW<br>	
             Calgary, AB T3R 1R8
         </address>

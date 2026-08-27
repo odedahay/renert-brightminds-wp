@@ -91,7 +91,7 @@
                         ?>
                         <article class="review-card swiper-slide">
                             <div class="review-card__profile">
-                                <img class="review-card__avatar" src="<?php echo esc_url($avatar); ?>" alt="<?php the_title(); ?>">
+                                <!-- <img class="review-card__avatar" src="<?php //echo esc_url($avatar); ?>" alt="<?php //the_title(); ?>"> -->
                                 <div class="review-card__identity">
                                     <div class="review-card__name-row">
                                         <h3 class="review-card__name"><?php the_title(); ?></h3>

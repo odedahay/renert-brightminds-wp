@@ -368,17 +368,18 @@ button {
 }
 
 .hero__action {
-    align-items: flex-start;
+    align-items: center;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width:fit-content;
 }
 
 .hero__note {
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.5;
-    margin: 0;
+    margin: 10px 0 0 0;
 }
 
 .button {
@@ -477,17 +478,17 @@ button {
 }
 
 .split-section__media {
-    bottom: 0;
     left: clamp(350px, 48vw, 625px);
     position: absolute;
     right: calc((1280px - 100vw) / 2);
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .split-section__image {
     aspect-ratio: 1448 / 1086;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     object-position: left center;
     width: 100%;
 }
@@ -828,7 +829,7 @@ button {
     font-weight: 800;
     line-height: 1.08;
     margin: 0;
-    max-width: 820px;
+    max-width: 1240px;
 }
 
 .cta__button {
@@ -2622,6 +2623,7 @@ select.form-field__control option {
         inset: auto;
         margin-left: 0;
         position: relative;
+        transform: none;
         width: 100%;
     }
 

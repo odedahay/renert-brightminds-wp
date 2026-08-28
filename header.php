@@ -20,7 +20,13 @@
                 </button>
                 <ul class="announcement__menu" aria-label="Other RENERT Programs">
                     <li class="announcement__menu-item">
-                        <a class="announcement__menu-link" href="https://renertschool.ca/" target="_blank">Renert School</a>
+                        <a class="announcement__menu-link" href="https://renertschool.ca/" target="_blank" alt="⁠⁠Renert School">Renert School</a>
+                    </li>
+                     <li class="announcement__menu-item">
+                        <a class="announcement__menu-link" href="https://renertjuniork.ca/" target="_blank" alt="Renert Preschool & JK">Renert Preschool & JK</a>
+                    </li>
+                     <li class="announcement__menu-item">
+                        <a class="announcement__menu-link" href="https://renert.com/" alt="⁠⁠Renert Centre" target="_blank">⁠⁠Renert Centre</a>
                     </li>
                 </ul>
             </div>

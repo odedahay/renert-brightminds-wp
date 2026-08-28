@@ -127,15 +127,7 @@ $cbm_faq_category_icons = array(
         </div>
     </section>
 
-    <section class="cta faq-cta" id="assessment" aria-labelledby="cta-title">
-        <div class="cta__panel faq-cta__panel">
-            <h2 class="cta__title" id="cta-title">Ready to build your child's academic muscle?</h2>
-            <div class="faq-cta__actions">
-                <a class="button button--primary" href="#enrol">Enrol Now</a>
-                <!-- <a class="button button--secondary" href="<?php echo esc_url(home_url('/schedule/')); ?>">View Schedule</a> -->
-            </div>
-        </div>
-    </section>
+    <?php get_template_part('template-parts/section', 'cta'); ?>
 </main>
 
 

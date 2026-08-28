@@ -202,12 +202,7 @@
         </dl>
     </section>
 
-    <section class="cta" id="assessment" aria-labelledby="cta-title">
-        <div class="cta__panel">
-            <h2 class="cta__title" id="cta-title">Ready to build your child's academic muscle?</h2>
-            <a class="button button--primary " href="#enrol">Enrol Now</a>
-        </div>
-    </section>
+    <?php get_template_part('template-parts/section', 'cta'); ?>
 </main>
 
 <?php get_footer(); ?>

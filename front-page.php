@@ -14,8 +14,8 @@
             <h1 class="hero__title" id="hero-title">Kids Are Smart</h1>
             <p class="hero__copy">Renert Bright Minds believes kids are capable of more than we expect. Our afterschool math and writing programs give them the challenge and space to discover what they can do. Weekly classes are available online or in person.</p>
             <div class="hero__action">
-                <a class="button button--primary" href="#assessment">Book a FREE Assessment</a>
-                <p class="hero__note">Free 30-minute assessment · Ages 5+</p>
+                <a class="button button--primary" href="#assessment">Contact Our Team</a>
+                <!-- <p class="hero__note">Free 30-minute assessment · Ages 5+</p> -->
             </div>
         </div>
     </section>
@@ -32,7 +32,7 @@
             <div class="split-section__content">
                 <h2 class="section-title" id="about-title">What is Renert Bright Minds?</h2>
                 <p class="split-section__copy">Renert Bright Minds brings the quality of a Renert education to after-school learning. Designed for students ages 5 and up, our math and writing enrichment programs help build strong academic skills in a supportive, challenging environment. Every child is assessed before entering a program to be matched with the appropriate peer group and instructor.</p>
-                <a class="button button--primary" href="#assessment">Book a FREE Assessment</a>
+                <a class="button button--primary" href="#assessment">Contact Our Team</a>
             </div>
             <div class="split-section__media">
                 <img class="split-section__image" src="<?php echo esc_url(get_theme_file_uri('/assets/images/renert-school-building.jpg')); ?>" alt="Renert School campus building">

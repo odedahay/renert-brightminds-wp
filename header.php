@@ -51,7 +51,7 @@
                     <li class="nav__item"><a class="nav__link <?php echo is_page('contact') ? 'active' : ''; ?>" href="<?php echo esc_url(home_url('/contact')); ?>">Contact</a></li>
                     <li class="nav__item"><a class="nav__link <?php echo is_page('faq') ? 'active' : ''; ?>" href="<?php echo esc_url(home_url('/faq')); ?>">FAQs</a></li>
                 </ul>
-                <a class="nav__portal" href="<?php echo esc_url('https://register.calgarybrightminds.com/'); ?>" target="_blank">Parent Portal</a>
+                <a class="nav__portal" href="<?php echo esc_url('https://register.calgarybrightminds.com/'); ?>" target="_blank">Family Portal </a>
             </div>
         </nav>
     </header>

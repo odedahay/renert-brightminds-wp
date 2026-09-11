@@ -40,23 +40,23 @@
                             <img class="contact-hours__icon" src="<?php echo esc_url(get_theme_file_uri('assets/icons/contact-clock.png')); ?>" alt="">
                         </span>
                         <div>
-                            <h2 class="contact-hours__eyebrow">SUMMER 2026</h2>
-                            <p class="contact-hours__range">JUNE 16 - SEPT 7</p>
+                            <h2 class="contact-hours__eyebrow">SCHOOL YEAR 2026</h2>
+                            <p class="contact-hours__range">Starts Sept 8</p>
                         </div>
                     </div>
                     <dl class="contact-hours__list">
                         <div class="contact-hours__row">
                             <dt>Monday - Thursday</dt>
-                            <dd>4:00 - 7:00 PM</dd>
+                            <dd>12:00PM - 7:00PM</dd>
                         </div>
                         <div class="contact-hours__row">
-                            <dt>Friday - Saturday</dt>
+                            <dt>Sundays, statutory holidays, long weekends</dt>
                             <dd>Closed</dd>
                         </div>
-                        <div class="contact-hours__row">
+                        <!-- <div class="contact-hours__row">
                             <dt>Statutory Holidays</dt>
                             <dd>Closed</dd>
-                        </div>
+                        </div> -->
                     </dl>
                 </article>
 

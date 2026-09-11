@@ -618,7 +618,7 @@ button {
     pointer-events: none;
     position: absolute;
     top: 0;
-    width: min(16vw, 180px);
+    width: min(6vw, 72px);
     z-index: 2;
 }
 
@@ -844,11 +844,11 @@ button {
 }
 
 .footer__inner {
-    align-items: center;
+    align-items: start;
     border-top: 1px solid var(--color-line);
     display: flex;
     justify-content: space-between;
-    gap: 48px;
+    gap: 20px;
     padding: 60px 0;
 }
 
@@ -2766,7 +2766,7 @@ select.form-field__control option {
 
     .nav__menu.is-open {
         display: flex;
-        padding-top:175px;
+        padding-top: 210px;
     }
 
     .nav__list {
@@ -2884,6 +2884,22 @@ select.form-field__control option {
     .footer__inner {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .footer__meta {
+        gap: 50px;
+    }
+
+    .footer__address {
+        order: -1;
+    }
+
+    .footer__socials {
+        order: 1;
+    }
+
+    .footer__copyright {
+        order: 2;
     }
 
     .contact-main {
@@ -3245,7 +3261,7 @@ select.form-field__control option {
     .contact-main {
         gap: 36px;
         padding-bottom: 56px;
-        padding-top: 168px;
+        padding-top: 218px;
     }
 
     .contact-title {
@@ -3378,6 +3394,11 @@ select.form-field__control option {
         font-size: 1.0625rem;
     }
 
+    .testimonials__viewport::before,
+    .testimonials__viewport::after {
+        display: none;
+    }
+
     .cta__panel {
         gap: 32px;
         padding: 56px 20px;
@@ -3385,12 +3406,12 @@ select.form-field__control option {
 
     .footer__copyright,
     .footer__address {
-        font-size: .85rem;
+        font-size: .95rem;
     }
 
     .faq-hero {
         padding-bottom: 56px;
-        padding-top: 168px;
+        padding-top: 218px;
     }
 
     .faq-hero__title {

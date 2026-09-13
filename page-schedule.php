@@ -6,7 +6,6 @@ $cbm_schedule_asset = static function ($path) {
 };
 
 $cbm_schedule_contact_url = esc_url(home_url('/contact/'));
-$cbm_schedule_url = esc_url(home_url('/schedule/'));
 
 ?>
 
@@ -14,7 +13,7 @@ $cbm_schedule_url = esc_url(home_url('/schedule/'));
     the_post();
 } ?>
 
-    <main class="schedule-page">
+<main class="schedule-page">
     <section class="hero" aria-labelledby="schedule-hero-title">
         <picture>
             <source media="(max-width: 860px)" srcset="<?php echo $cbm_schedule_asset('assets/images/schedule-hero-banner-m.png'); ?>">
@@ -51,7 +50,9 @@ $cbm_schedule_url = esc_url(home_url('/schedule/'));
 
             <div class="schedule-calendar__grid-view" data-schedule-grid-view>
                 <div class="schedule-calendar__header">
-                    <h3 class="schedule-calendar__month">August 2026</h3>
+                    <h3 class="schedule-calendar__month">
+                        <?php echo esc_html(date_i18n('F Y', current_time('timestamp'))); ?>
+                    </h3>
                     <div class="schedule-calendar__arrows">
                         <button class="schedule-calendar__arrow" type="button" data-calendar-prev aria-label="Previous month">
                             <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-prev.svg'); ?>" alt="">
@@ -64,7 +65,7 @@ $cbm_schedule_url = esc_url(home_url('/schedule/'));
 
                 <div class="schedule-calendar__table" aria-label="August 2026 calendar">
                     <!-- Run by Dynamic with JS-->
-                    <div class="schedule-calendar__weekday">SUN</div>
+                    <!-- <div class="schedule-calendar__weekday">SUN</div>
                     <div class="schedule-calendar__weekday">MON</div>
                     <div class="schedule-calendar__weekday">TUE</div>
                     <div class="schedule-calendar__weekday">WED</div>
@@ -118,77 +119,134 @@ $cbm_schedule_url = esc_url(home_url('/schedule/'));
                     <div class="schedule-calendar__day schedule-calendar__day--muted"><span>2</span></div>
                     <div class="schedule-calendar__day schedule-calendar__day--muted"><span>3</span></div>
                     <div class="schedule-calendar__day schedule-calendar__day--muted"><span>4</span></div>
-                    <div class="schedule-calendar__day schedule-calendar__day--muted"><span>5</span></div>
+                    <div class="schedule-calendar__day schedule-calendar__day--muted"><span>5</span></div> -->
                 </div>
             </div>
 
             <div class="schedule-events" data-schedule-list-view>
-                <article class="schedule-event" id="event-aug-4" data-event-date="2026-08-04">
-                    <div class="schedule-event__date">
-                        <span>AUG</span>
-                        <strong>4</strong>
-                    </div>
-                    <div class="schedule-event__body">
-                        <h3 class="schedule-event__title">Math class AM</h3>
-                        <p class="schedule-event__teacher">Teacher Sarah</p>
-                        <div class="schedule-event__meta">
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-clock.svg'); ?>" alt="">10:00 AM - 12:00 PM</span>
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-location.svg'); ?>" alt="">Main Campus, Calgary AB</span>
-                        </div>
-                        <a class="schedule-event__link" href="<?php echo $cbm_schedule_contact_url; ?>">Learn More <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt=""></a>
-                    </div>
-                </article>
+                
+                <?php
+               $today = date('Y-m-d 00:00:00');
+               $calendarSchedules = new WP_Query(array(
+                    'posts_per_page' => -1,
+                    'post_type'      => 'schedule',
+                    'post_status'    => 'publish',
+                    'meta_key'       => 'event_date',
+                    'orderby'        => 'meta_value',
+                    'meta_type'      => 'DATETIME',
+                    'order'          => 'ASC',
+                ));
 
-                <article class="schedule-event" id="event-aug-4-rodel" data-event-date="2026-08-04">
-                    <div class="schedule-event__date">
-                        <span>AUG</span>
-                        <strong>4</strong>
-                    </div>
-                    <div class="schedule-event__body">
-                        <h3 class="schedule-event__title">Math class AM</h3>
-                        <p class="schedule-event__teacher">Teacher Rodel</p>
-                        <div class="schedule-event__meta">
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-clock.svg'); ?>" alt="">02:00 PM - 04:00 PM</span>
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-location.svg'); ?>" alt="">Main Campus, Calgary AB</span>
-                        </div>
-                        <a class="schedule-event__link" href="<?php echo $cbm_schedule_contact_url; ?>">Learn More <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt=""></a>
-                    </div>
-                </article>
+                $pageSchedules = new WP_Query(array(
+                    'posts_per_page' => 10,
+                    'post_type'      => 'schedule',
+                    'post_status'    => 'publish',
+                    'meta_key'       => 'event_date',
+                    'orderby'        => 'meta_value',
+                    'meta_type'      => 'DATETIME',
+                    'order'          => 'ASC',
+                    'meta_query'     => array(
+                     array(
+                        'key' => 'event_date',
+                        'compare' => '>=',
+                        'value' => $today,
+                        'type' => 'DATETIME'
+                        )
+                    )
+                ));
+                ?>
+              
+                <?php
+                while ($pageSchedules->have_posts()) {
+                    $pageSchedules->the_post();
+                ?>
+                <!-- <pre>
+                    <?php
+                    //echo get_the_title() . ' => ';
+                    //echo get_post_meta(get_the_ID(), 'event_date', true);
+                    ?>
+                    </pre> -->
 
-                <article class="schedule-event" id="event-aug-6" data-event-date="2026-08-06">
-                    <div class="schedule-event__date">
-                        <span>AUG</span>
-                        <strong>6</strong>
-                    </div>
-                    <div class="schedule-event__body">
-                        <h3 class="schedule-event__title">English writing PM</h3>
-                        <p class="schedule-event__teacher">Teacher Rodel</p>
-                        <div class="schedule-event__meta">
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-clock.svg'); ?>" alt="">10:00 AM - 12:00 PM</span>
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-location.svg'); ?>" alt="">Main Campus, Calgary AB</span>
-                        </div>
-                        <a class="schedule-event__link" href="<?php echo $cbm_schedule_contact_url; ?>">Learn More <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt=""></a>
-                    </div>
-                </article>
+                    <?php
+                        $eventDate = new DateTime(get_field('event_date'));
+                        $eventDateAttr = $eventDate->format('Y-m-d');
+                        ?>
+    
+                    <article class="schedule-event" id="event-<?php the_ID(); ?>" data-event-date="<?php echo esc_attr($eventDateAttr); ?>">
 
-                <article class="schedule-event" id="event-aug-15" data-event-date="2026-08-15">
-                    <div class="schedule-event__date">
-                        <span>AUG</span>
-                        <strong>15</strong>
-                    </div>
-                    <div class="schedule-event__body">
-                        <h3 class="schedule-event__title">Math class AM</h3>
-                        <p class="schedule-event__teacher">Teacher Rita</p>
-                        <div class="schedule-event__meta">
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-clock.svg'); ?>" alt="">10:00 AM - 12:00 PM</span>
-                            <span><img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-location.svg'); ?>" alt="">Zoom online</span>
+                        <!-- Yellow Calendar -->
+                        <div class="schedule-event__date">
+                            <span>
+                                <?php $eventDate = new DateTime(get_field('event_date'));
+                                    echo $eventDate->format('M')
+                                ?>
+                            </span>
+                            <strong>
+                                <?php echo $eventDate->format('d')?>
+                            </strong>
                         </div>
-                        <a class="schedule-event__link" href="<?php echo $cbm_schedule_contact_url; ?>">Learn More <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt=""></a>
-                    </div>
-                </article>
+                        <!-- /Yellow Calendar -->
+                        <div class="schedule-event__body">
+                            <h3 class="schedule-event__title"><?php the_title(); ?></h3>
+                            <!-- <p class="schedule-event__teacher">Author</p> -->
+                            <div class="schedule-event__meta">
+                                <!-- Time event -->
+                                <span>
+                                    <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-clock.svg'); ?>" alt="">10:00 AM - 12:00 PM
+                                </span>
+                                <!-- /Time event -->
+                                <!-- Location event -->
+                                <span>
+                                    <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-location.svg'); ?>" alt="">Main Campus, Calgary AB
+                                </span>
+                            </div>
+                            <a class="schedule-event__link" href="<?php the_permalink(); ?>">
+                                Learn More <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt="">
+                            </a>
+                        </div>
+                    </article>
+                <?php }
+
+                wp_reset_postdata();
+                ?>
+                <!-- Calendar Grid -->
+                <div hidden data-calendar-events>
+                    <?php while ($calendarSchedules->have_posts()) : $calendarSchedules->the_post(); ?>
+                        <?php
+                        $eventDate = new DateTime(get_field('event_date'));
+                        ?>
+                        <article
+                            class="schedule-event"
+                            data-event-date="<?php echo esc_attr($eventDate->format('Y-m-d')); ?>"
+                        >
+                            <div class="schedule-event__date">
+                                <span><?php echo esc_html($eventDate->format('M')); ?></span>
+                                <strong><?php echo esc_html($eventDate->format('d')); ?></strong>
+                            </div>
+                            <div class="schedule-event__body">
+                                <h3 class="schedule-event__title"><?php the_title(); ?></h3>
+                                <div class="schedule-event__meta">
+                                    <span>
+                                        <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-clock.svg'); ?>" alt="">10:00 AM - 12:00 PM
+                                    </span>
+                                    <span>
+                                        <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-location.svg'); ?>" alt="">Main Campus, Calgary AB
+                                    </span>
+                                </div>
+                                <a class="schedule-event__link" href="<?php the_permalink(); ?>">
+                                    Learn More <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt="">
+                                </a>
+                            </div>
+                        </article>
+                    <?php endwhile; ?>
+                    <?php wp_reset_postdata(); ?>
+                </div>
+                <!-- / Calendar Grid -->
 
                 <div class="schedule-events__view-more-button">
-                    <a class="schedule-event__more-link" href="<?php echo $cbm_schedule_url; ?>">View More Events<img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt=""></a>
+                    <a href="<?php echo get_post_type_archive_link('schedule'); ?>" class="schedule-event__more-link">View More Events
+                        <img src="<?php echo $cbm_schedule_asset('assets/icons/schedule-arrow-right.svg'); ?>" alt="View More Events">
+                    </a>
                 </div>
             </div>
 

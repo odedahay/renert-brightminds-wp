@@ -57,7 +57,8 @@ function calgarybrightminds_files()
 
 add_action('wp_enqueue_scripts', 'calgarybrightminds_files');
 
-function calgarybrightminds_features(){
+function calgarybrightminds_features()
+{
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
 }
@@ -96,7 +97,8 @@ add_filter('wpcf7_validate_tel*', 'cbm_validate_canadian_phone', 20, 2);
 add_filter('wpcf7_validate_tel', 'cbm_validate_canadian_phone', 20, 2);
 
 
-function cbm_validate_canadian_phone($result, $tag) {
+function cbm_validate_canadian_phone($result, $tag)
+{
     $field_name = $tag->name;
 
     if ('parent-phone' !== $field_name) {
@@ -129,7 +131,8 @@ function cbm_validate_canadian_phone($result, $tag) {
 // 1-403-555-1234
 
 // Event Posts
-function cbm_schedule_post_types(){
+function cbm_schedule_post_types()
+{
     register_post_type('schedule', array(
         'public' => true,
         'show_in_rest' => true,
@@ -139,7 +142,7 @@ function cbm_schedule_post_types(){
         'has_archive' => true,
         'rewrite' => array('slug' => 'schedules'),
         'labels' => array(
-            'name'=>'Schedules',
+            'name' => 'Schedules',
             'singular_name' => 'Schedule',
             'add_new_item' => 'Add New Schedule',
             'edit_item' => 'Edit Schedule',
@@ -154,20 +157,81 @@ function cbm_schedule_post_types(){
 add_action('init', 'cbm_schedule_post_types');
 
 
-// to active class:
+// to active class when visiting page schedule :
 add_filter('body_class', function ($classes) {
-    if (is_singular('schedule')) {
+    if (is_post_type_archive('schedule') || is_singular('schedule')) {
         $classes[] = 'event-detail-template';
     }
 
     return $classes;
 });
 
+// Schedules show date in column
+function cbm_add_schedule_eventdate_column($columns)
+{
+    $ordered_columns = array();
+
+    foreach ($columns as $key => $label) {
+        $ordered_columns[$key] = $label;
+
+        if ('title' === $key) {
+            $ordered_columns['event_date'] = 'Event Date';
+        }
+    }
+
+    return $ordered_columns;
+}
+add_filter('manage_schedule_posts_columns', 'cbm_add_schedule_eventdate_column');
+
+function cbm_show_schedule_eventdate_column($column, $post_id)
+{
+    if ('event_date' !== $column) {
+        return;
+    }
+
+    $event_date = get_field('event_date', $post_id);
+
+    if (!$event_date) {
+        echo '&mdash;';
+        return;
+    }
+
+    $date = DateTime::createFromFormat('Ymd', $event_date);
+
+    if (!$date) {
+        $date = date_create($event_date);
+    }
+
+    echo esc_html($date ? $date->format('M d, Y') : $event_date);
+}
+add_action('manage_schedule_posts_custom_column', 'cbm_show_schedule_eventdate_column', 10, 2);
+
+// Pagination for Schedule page
+function cbm_adjust_queries($query)
+{
+    if (!is_admin() and is_post_type_archive('schedule') and $query->is_main_query()) {
+        $today = date('Y-m-d 00:00:00');
+        $query->set('meta_key', 'event_date');
+        $query->set('orderby', 'meta_value');
+        $query->set('meta_type', 'DATETIME');
+        $query->set('order', 'ASC');
+        $query->set('meta_query', array(
+            array(
+                'key' => 'event_date',
+                'compare' => '>=',
+                'value' => $today,
+                'type' => 'DATETIME'
+            )
+        ));
+    }
+}
+
 // Testmonials Custom Post Type
-function cbm_register_testimonial_post_type(){
-    register_post_type( 'testimonial', array(
+function cbm_register_testimonial_post_type()
+{
+    register_post_type('testimonial', array(
         'labels' => array(
-            'name'=>'Testimonials',
+            'name' => 'Testimonials',
             'singular_name' => 'Testimonial',
             'add_new_item' => 'Add New Testimonial',
             'edit_item' => 'Edit Testimonial',
@@ -192,7 +256,8 @@ add_action('init', 'cbm_register_testimonial_post_type');
 // Testimonial CPT admin
 // CPT for Testimonials
 
-function cbm_add_testimonial_meta_boxes() {
+function cbm_add_testimonial_meta_boxes()
+{
     add_meta_box(
         'cbm_testimonial_details',
         'Testimonial Details',
@@ -204,13 +269,14 @@ function cbm_add_testimonial_meta_boxes() {
 }
 add_action('add_meta_boxes', 'cbm_add_testimonial_meta_boxes');
 
-function cbm_render_testimonial_meta_box($post) {
+function cbm_render_testimonial_meta_box($post)
+{
     wp_nonce_field('cbm_save_testimonial_details', 'cbm_testimonial_nonce');
 
     $location = get_post_meta($post->ID, '_cbm_testimonial_location', true);
     $rating = get_post_meta($post->ID, '_cbm_testimonial_rating', true);
     $verified = get_post_meta($post->ID, '_cbm_testimonial_verified', true);
-    ?>
+?>
 
     <p>
         <label for="cbm_testimonial_location"><strong>Location</strong></label><br>
@@ -235,10 +301,11 @@ function cbm_render_testimonial_meta_box($post) {
         </label>
     </p>
 
-    <?php
+<?php
 }
 
-function cbm_save_testimonial_details($post_id) {
+function cbm_save_testimonial_details($post_id)
+{
     if (!isset($_POST['cbm_testimonial_nonce']) || !wp_verify_nonce($_POST['cbm_testimonial_nonce'], 'cbm_save_testimonial_details')) {
         return;
     }
@@ -259,7 +326,8 @@ add_action('save_post_testimonial', 'cbm_save_testimonial_details');
 
 
 // FAQ Custom POST Type
-function cbm_register_faq_post_type() {
+function cbm_register_faq_post_type()
+{
     register_post_type('faq', array(
         'labels' => array(
             'name' => 'FAQs',
@@ -286,7 +354,8 @@ add_action('init', 'cbm_register_faq_post_type');
 
 
 // FAQ Custom POST Type - > Category
-function cbm_register_faq_taxonomy() {
+function cbm_register_faq_taxonomy()
+{
     register_taxonomy('faq_category', 'faq', array(
         'labels' => array(
             'name' => 'FAQ Categories',
@@ -303,7 +372,8 @@ function cbm_register_faq_taxonomy() {
 }
 add_action('init', 'cbm_register_faq_taxonomy');
 
-function cbm_add_faq_order_column($columns) {
+function cbm_add_faq_order_column($columns)
+{
     $ordered_columns = array();
     $author_label = $columns['author'] ?? 'Author';
     unset($columns['author']);
@@ -328,7 +398,8 @@ function cbm_add_faq_order_column($columns) {
 }
 add_filter('manage_faq_posts_columns', 'cbm_add_faq_order_column');
 
-function cbm_render_faq_order_column($column, $post_id) {
+function cbm_render_faq_order_column($column, $post_id)
+{
     if ('menu_order' !== $column) {
         return;
     }
@@ -337,7 +408,8 @@ function cbm_render_faq_order_column($column, $post_id) {
 }
 add_action('manage_faq_posts_custom_column', 'cbm_render_faq_order_column', 10, 2);
 
-function cbm_make_faq_order_column_sortable($columns) {
+function cbm_make_faq_order_column_sortable($columns)
+{
     $columns['menu_order'] = 'menu_order';
 
     return $columns;

@@ -219,7 +219,8 @@ document.querySelectorAll("[data-schedule-view]").forEach((scheduleView) => {
         "November",
         "December",
     ];
-    const scheduleEvents = Array.from(scheduleView.querySelectorAll(".schedule-event[data-event-date]")).map((eventCard) => {
+    const calendarEventSource = scheduleView.querySelector("[data-calendar-events]") || scheduleView;
+    const scheduleEvents = Array.from(calendarEventSource.querySelectorAll(".schedule-event[data-event-date]")).map((eventCard) => {
         const [year, month, day] = eventCard.dataset.eventDate.split("-").map(Number);
         const title = eventCard.querySelector(".schedule-event__title");
 

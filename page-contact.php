@@ -11,7 +11,7 @@
             </p>
 
             <h1 class="contact-title" id="contact-title">Speak with<br>our team</h1>
-            <p class="contact-copy">Tell us about your child, and we'll match them with a program tailored to their pace and goals.</p>
+            <p class="contact-copy"> The school year is in full swing, but enrolment is still open. Tell us about your child, and we'll match them with a program tailored to their pace and goals.</p>
 
             <div class="contact-info" aria-label="Contact details">
                 <article class="contact-info-card">
@@ -29,7 +29,7 @@
                         <img class="contact-info-card__icon" src="<?php echo esc_url(get_theme_file_uri('assets/icons/contact-email.png')); ?>" alt="">
                     </span>
                     <div>
-                        <h2 class="contact-info-card__label">EMAIL</h2>
+                        <h2 class="contact-info-card__label">EMAIL US</h2>
                         <a class="contact-info-card__value" href="mailto:tutoring@renert.com">tutoring@renert.com</a>
                     </div>
                 </article>
@@ -40,8 +40,8 @@
                             <img class="contact-hours__icon" src="<?php echo esc_url(get_theme_file_uri('assets/icons/contact-clock.png')); ?>" alt="">
                         </span>
                         <div>
-                            <h2 class="contact-hours__eyebrow">SCHOOL YEAR 2026</h2>
-                            <p class="contact-hours__range">Starts Sept 8</p>
+                            <h2 class="contact-hours__eyebrow">WHEN TO REACH US</h2>
+                            <p class="contact-hours__range">Office Hours</p>
                         </div>
                     </div>
                     <dl class="contact-hours__list">

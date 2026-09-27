@@ -23,7 +23,7 @@
     <section class="enroll-strip" id="schedule" aria-label="Enrollment availability">
         <div class="enroll-strip__inner">
             <h2 class="enroll-strip__title">Limited spaces available</h2>
-            <a class="button button--light" href="<?php echo esc_url(home_url('/contact/')); ?>">Enrol Now</a>
+            <a class="button button--light" href="<?php echo esc_url(home_url('/contact/')); ?>">Inquire Now</a>
         </div>
     </section>
 

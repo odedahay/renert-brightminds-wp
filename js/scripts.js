@@ -4,13 +4,30 @@ const nav = document.querySelector(".nav");
 const announcement = document.querySelector(".announcement");
 
 if (nav) {
+    let stickyOffset = announcement ? announcement.offsetHeight : 0;
+
     const updateStickyNav = () => {
-        const stickyOffset = announcement ? announcement.offsetHeight : 0;
-        nav.classList.toggle("is-sticky", window.scrollY > stickyOffset);
+        const isSticky = window.scrollY > stickyOffset;
+
+        nav.classList.toggle("is-sticky", isSticky);
+
+        if (announcement) {
+            announcement.classList.toggle("is-sticky", isSticky);
+            nav.style.setProperty("--announcement-height", `${announcement.offsetHeight}px`);
+        }
+    };
+
+    const updateStickyNavOnResize = () => {
+        if (announcement && !announcement.classList.contains("is-sticky")) {
+            stickyOffset = announcement.offsetHeight;
+        }
+
+        updateStickyNav();
     };
 
     updateStickyNav();
     window.addEventListener("scroll", updateStickyNav, { passive: true });
+    window.addEventListener("resize", updateStickyNavOnResize);
 }
 
 const testimonialsViewport = document.querySelector(".testimonials__viewport");

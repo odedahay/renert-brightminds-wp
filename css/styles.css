@@ -61,6 +61,26 @@ button {
     padding: 24px clamp(24px, 5vw, 70px);
 }
 
+.announcement.is-sticky {
+    left: 0;
+    min-height: 48px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 21;
+}
+
+.announcement.is-sticky .announcement__text {
+    font-size: 0.85rem;
+}
+
+.announcement.is-sticky .announcement__icon {
+    height: 7.25px;
+    width: 11.67px;
+}
+
 .announcement__dropdown {
     margin-left: auto;
     position: relative;
@@ -163,7 +183,7 @@ button {
     height: 100px;
     left: 0;
     position: fixed;
-    top: 0;
+    top: var(--announcement-height, 0px);
     z-index: 20;
 }
 

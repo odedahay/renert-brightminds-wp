@@ -440,6 +440,19 @@ button {
     background: var(--color-blue);
     color: #ffffff;
     padding: 56px var(--page-gutter);
+    position: sticky;
+    top: var(--sticky-header-height, 148px);
+    transition: padding 240ms ease;
+    z-index: 9;
+}
+
+.enroll-strip.is-compact {
+    padding-bottom: 16px;
+    padding-top: 16px;
+}
+
+.enroll-strip.is-compact .enroll-strip__title {
+    font-size: 2.15rem;
 }
 
 .enroll-strip__inner {
@@ -454,6 +467,14 @@ button {
     font-weight: 800;
     line-height: 1.15;
     margin: 0;
+    transition: font-size 240ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .enroll-strip,
+    .enroll-strip__title {
+        transition: none;
+    }
 }
 
 .split-section {

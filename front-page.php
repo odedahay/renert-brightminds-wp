@@ -20,25 +20,27 @@
         </div>
     </section>
 
-    <section class="enroll-strip" id="schedule" aria-label="Enrollment availability">
-        <div class="enroll-strip__inner">
-            <h2 class="enroll-strip__title">Limited spaces available</h2>
-            <a class="button button--light" href="<?php echo esc_url(home_url('/contact/')); ?>">Inquire Now</a>
-        </div>
-    </section>
+    <div class="enroll-sticky-region">
+        <section class="enroll-strip" id="schedule" aria-label="Enrollment availability">
+            <div class="enroll-strip__inner">
+                <h2 class="enroll-strip__title">Limited spaces available</h2>
+                <a class="button button--light" href="<?php echo esc_url(home_url('/contact/')); ?>">Inquire Now</a>
+            </div>
+        </section>
 
-    <section class="split-section about" aria-labelledby="about-title">
-        <div class="split-section__inner">
-            <div class="split-section__content">
-                <h2 class="section-title" id="about-title">What is Renert Bright Minds?</h2>
-                <p class="split-section__copy">Renert Bright Minds brings the quality of a Renert education to after-school learning. Designed for students ages 5 and up, our math and writing enrichment programs help build strong academic skills in a supportive, challenging environment. Every child is assessed before entering a program to be matched with the appropriate peer group and instructor.</p>
-                <a class="button button--primary" href="<?php echo esc_url(home_url('/contact/')); ?>">Contact Our Team</a>
+        <section class="split-section about" aria-labelledby="about-title">
+            <div class="split-section__inner">
+                <div class="split-section__content">
+                    <h2 class="section-title" id="about-title">What is Renert Bright Minds?</h2>
+                    <p class="split-section__copy">Renert Bright Minds brings the quality of a Renert education to after-school learning. Designed for students ages 5 and up, our math and writing enrichment programs help build strong academic skills in a supportive, challenging environment. Every child is assessed before entering a program to be matched with the appropriate peer group and instructor.</p>
+                    <a class="button button--primary" href="<?php echo esc_url(home_url('/contact/')); ?>">Contact Our Team</a>
+                </div>
+                <div class="split-section__media">
+                    <img class="split-section__image" src="<?php echo esc_url(get_theme_file_uri('/assets/images/renert-school-building.jpg')); ?>" alt="Renert School campus building">
+                </div>
             </div>
-            <div class="split-section__media">
-                <img class="split-section__image" src="<?php echo esc_url(get_theme_file_uri('/assets/images/renert-school-building.jpg')); ?>" alt="Renert School campus building">
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <section class="programs" aria-labelledby="programs-title">
         <div class="programs__header">

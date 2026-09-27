@@ -2,9 +2,13 @@ const navToggle = document.querySelector(".nav__toggle");
 const navMenu = document.querySelector(".nav__menu");
 const nav = document.querySelector(".nav");
 const announcement = document.querySelector(".announcement");
+const enrollStrip = document.querySelector(".enroll-strip");
 
 if (nav) {
     let stickyOffset = announcement ? announcement.offsetHeight : 0;
+    let enrollStripOffset = enrollStrip
+        ? enrollStrip.getBoundingClientRect().top + window.scrollY
+        : 0;
 
     const updateStickyNav = () => {
         const isSticky = window.scrollY > stickyOffset;
@@ -15,11 +19,28 @@ if (nav) {
             announcement.classList.toggle("is-sticky", isSticky);
             nav.style.setProperty("--announcement-height", `${announcement.offsetHeight}px`);
         }
+
+        const stickyHeaderHeight = isSticky
+            ? nav.offsetHeight + (announcement ? announcement.offsetHeight : 0)
+            : 0;
+
+        document.documentElement.style.setProperty("--sticky-header-height", `${stickyHeaderHeight}px`);
+
+        if (enrollStrip) {
+            const isEnrollStripSticky = isSticky
+                && window.scrollY + stickyHeaderHeight >= enrollStripOffset;
+
+            enrollStrip.classList.toggle("is-compact", isEnrollStripSticky);
+        }
     };
 
     const updateStickyNavOnResize = () => {
         if (announcement && !announcement.classList.contains("is-sticky")) {
             stickyOffset = announcement.offsetHeight;
+        }
+
+        if (enrollStrip && !enrollStrip.classList.contains("is-compact")) {
+            enrollStripOffset = enrollStrip.getBoundingClientRect().top + window.scrollY;
         }
 
         updateStickyNav();

@@ -677,6 +677,7 @@ button {
 
 .process__steps {
     display: grid;
+    isolation: isolate;
     gap: clamp(32px, 6.53vw, 94px);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     list-style: none;
@@ -686,7 +687,8 @@ button {
     width: 100%;
 }
 
-.process__steps::before {
+.process__steps::before,
+.process__steps::after {
     background: url('../assets/icons/process-connector.svg') center / 100% auto no-repeat;
     content: '';
     height: 3px;
@@ -694,6 +696,15 @@ button {
     position: absolute;
     right: calc((100% - 2 * clamp(32px, 6.53vw, 94px)) / 6);
     top: 69px;
+    z-index: 0;
+}
+
+.process__steps::after {
+    background: #ffa812;
+    height: 2px;
+    transform: scaleX(var(--process-progress, 0));
+    transform-origin: left center;
+    transition: transform 400ms ease;
 }
 
 .process__step {
@@ -714,22 +725,36 @@ button {
     justify-content: center;
     margin-bottom: 30px;
     padding: 8px;
+    position: relative;
     width: 133px;
+    z-index: 1;
+    transition: background-color 400ms ease;
 }
 
-.process__icon svg {
+.process__icon img {
     height: 117px;
     object-fit: cover;
-    opacity: 0.6;
+    opacity: 1;
     width: 117px;
+    filter: brightness(0) invert(0.7);
+    transition: filter 400ms ease, opacity 400ms ease;
 }
 
-.process__step--learn .process__icon {
+.process__step.is-active .process__icon {
     background: #ffa812;
 }
 
-.process__step--learn .process__icon img {
+.process__step.is-active .process__icon img {
+    filter: brightness(0) invert(1);
     opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .process__steps::after,
+    .process__icon,
+    .process__icon img {
+        transition: none;
+    }
 }
 
 .process__step-title {
@@ -738,6 +763,35 @@ button {
     letter-spacing: -0.02em;
     line-height: normal;
     margin: 0 0 28px;
+}
+
+.process__step-title,
+.process__copy {
+    transition: opacity 400ms ease, transform 400ms ease;
+}
+
+.process__steps.is-animated .process__step-title,
+.process__steps.is-animated .process__copy {
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+.process__steps.is-animated .process__step.is-active .process__step-title,
+.process__steps.is-animated .process__step.is-active .process__copy {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .process__step-title,
+    .process__copy {
+        transition: none;
+    }
+
+    .process__steps.is-animated .process__step-title,
+    .process__steps.is-animated .process__copy {
+        transform: none;
+    }
 }
 
 .process__copy {
@@ -772,7 +826,8 @@ button {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .process__steps::before {
+    .process__steps::before,
+    .process__steps::after {
         display: none;
     }
 

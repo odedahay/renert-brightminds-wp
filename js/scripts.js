@@ -4,6 +4,51 @@ const nav = document.querySelector(".nav");
 const announcement = document.querySelector(".announcement");
 const enrollStrip = document.querySelector(".enroll-strip");
 
+const processSteps = document.querySelector(".process__steps");
+
+if (processSteps) {
+    const steps = Array.from(processSteps.querySelectorAll(".process__step"));
+    const stackedLayout = window.matchMedia("(max-width: 860px)");
+    let processFramePending = false;
+    processSteps.classList.add("is-animated");
+
+    const updateProcess = () => {
+        const viewportHeight = window.innerHeight;
+        const firstIconTop = steps[0]?.querySelector(".process__icon").getBoundingClientRect().top;
+        let activeCount = 0;
+
+        steps.forEach((step, index) => {
+            // Desktop steps share a row: advance as that row moves up the viewport.
+            // Stacked steps activate individually as their icons enter the reading area.
+            const iconTop = stackedLayout.matches
+                ? step.querySelector(".process__icon").getBoundingClientRect().top
+                : firstIconTop;
+            const threshold = viewportHeight * (stackedLayout.matches ? 0.72 : 0.8 - index * 0.2);
+            const isActive = iconTop <= threshold;
+
+            step.classList.toggle("is-active", isActive);
+            if (isActive) activeCount += 1;
+        });
+
+        processSteps.style.setProperty("--process-progress", steps.length > 1
+            ? Math.max(0, activeCount - 1) / (steps.length - 1)
+            : 0);
+        processFramePending = false;
+    };
+
+    const scheduleProcessUpdate = () => {
+        if (!processFramePending) {
+            processFramePending = true;
+            window.requestAnimationFrame(updateProcess);
+        }
+    };
+
+    updateProcess();
+    window.addEventListener("scroll", scheduleProcessUpdate, { passive: true });
+    window.addEventListener("resize", scheduleProcessUpdate);
+    window.addEventListener("load", scheduleProcessUpdate);
+}
+
 if (nav) {
     let stickyOffset = announcement ? announcement.offsetHeight : 0;
     let enrollStripOffset = enrollStrip

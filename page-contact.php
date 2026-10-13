@@ -46,17 +46,22 @@
                     </div>
                     <dl class="contact-hours__list">
                         <div class="contact-hours__row">
-                            <dt>Monday - Thursday</dt>
+                            <dt>Monday - Friday</dt>
                             <dd>12:00PM - 7:00PM</dd>
                         </div>
+                         <div class="contact-hours__row">
+                            <dt>Saturday</dt>
+                            <dd>9:00AM - 4:00PM</dd>
+                        </div>
                         <div class="contact-hours__row">
-                            <dt>Sundays, statutory holidays, long weekends</dt>
+                            <dt>Sundays, statutory holidays, long weekends
+                            </dt>
                             <dd>Closed</dd>
                         </div>
-                        <!-- <div class="contact-hours__row">
-                            <dt>Statutory Holidays</dt>
-                            <dd>Closed</dd>
-                        </div> -->
+                        <div class="contact-hours__row">
+                            <dt style="font-size: .85rem; font-weight:400; font-style:italic">Hours may vary during class breaks.</dt>
+                            <dd></dd>
+                        </div>
                     </dl>
                 </article>
 

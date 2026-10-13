@@ -51,6 +51,48 @@ if (nav) {
     window.addEventListener("resize", updateStickyNavOnResize);
 }
 
+const aboutCarousel = document.querySelector(".about-carousel");
+
+if (window.Swiper && aboutCarousel) {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hasMultipleSlides = aboutCarousel.querySelectorAll(".swiper-slide").length > 1;
+    const syncAboutSlides = (swiper) => {
+        swiper.slides.forEach((slide, index) => {
+            // Keep links in offscreen slides out of the keyboard focus order.
+            slide.inert = index !== swiper.activeIndex;
+        });
+    };
+
+    new Swiper(aboutCarousel, {
+        slidesPerView: 1,
+        spaceBetween: 32,
+        autoHeight: true,
+        rewind: true,
+        autoplay: hasMultipleSlides && !prefersReducedMotion ? {
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        } : false,
+        speed: prefersReducedMotion ? 0 : 450,
+        navigation: {
+            prevEl: aboutCarousel.querySelector(".about-carousel__previous"),
+            nextEl: aboutCarousel.querySelector(".about-carousel__next"),
+        },
+        pagination: {
+            el: aboutCarousel.querySelector(".about-carousel__pagination"),
+            clickable: true,
+        },
+        a11y: {
+            enabled: true,
+            slideLabelMessage: "{{index}} of {{slidesLength}}",
+        },
+        on: {
+            init: syncAboutSlides,
+            slideChange: syncAboutSlides,
+        },
+    });
+}
+
 const testimonialsViewport = document.querySelector(".testimonials__viewport");
 
 if (window.Swiper && testimonialsViewport) {

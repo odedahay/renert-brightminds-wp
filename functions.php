@@ -415,3 +415,29 @@ function cbm_make_faq_order_column_sortable($columns)
     return $columns;
 }
 add_filter('manage_edit-faq_sortable_columns', 'cbm_make_faq_order_column_sortable');
+
+// Editable slides for the homepage text-and-image carousel.
+function cbm_register_homepage_slide_post_type()
+{
+    register_post_type('homepage_slide', array(
+        'labels' => array(
+            'name' => 'Homepage Slides',
+            'singular_name' => 'Homepage Slide',
+            'add_new_item' => 'Add New Homepage Slide',
+            'edit_item' => 'Edit Homepage Slide',
+            'new_item' => 'New Homepage Slide',
+            'search_items' => 'Search Homepage Slides',
+            'not_found' => 'No homepage slides found',
+            'menu_name' => 'Homepage Slides',
+        ),
+        'public' => false,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'show_in_rest' => true,
+        'menu_icon' => 'dashicons-images-alt2',
+        'supports' => array('title', 'editor', 'thumbnail', 'page-attributes'),
+        'has_archive' => false,
+        'rewrite' => false,
+    ));
+}
+add_action('init', 'cbm_register_homepage_slide_post_type');

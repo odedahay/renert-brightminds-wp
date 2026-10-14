@@ -7,7 +7,7 @@
         <div class="contact-intro">
             <p class="contact-pill">
                 <img class="contact-pill__icon" src="<?php echo esc_url(get_theme_file_uri('/assets/icons/enrolment-dot.svg')); ?>" alt="ENROLMENT NOW OPEN">
-                <span>ENROLMENT NOW OPEN</span>
+                <span>ACCEPTING ENROLMENTS</span>
             </p>
 
             <h1 class="contact-title" id="contact-title">Speak with<br>our team</h1>

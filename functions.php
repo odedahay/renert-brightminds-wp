@@ -157,9 +157,13 @@ function cbm_schedule_post_types()
 add_action('init', 'cbm_schedule_post_types');
 
 
-// to active class when visiting page schedule :
+// Apply event detail styling to schedules and pages rendered with page.php.
 add_filter('body_class', function ($classes) {
-    if (is_post_type_archive('schedule') || is_singular('schedule')) {
+    global $template;
+
+    $uses_page_template = is_page() && 'page.php' === basename((string) $template);
+
+    if (is_post_type_archive('schedule') || is_singular('schedule') || $uses_page_template) {
         $classes[] = 'event-detail-template';
     }
 

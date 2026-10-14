@@ -1130,6 +1130,25 @@ button {
     padding: 0;
 }
 
+.footer__legal {
+    order: 2;
+}
+
+.footer__privacy {
+    display: inline-block;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-top: 8px;
+    text-decoration: none;
+    text-underline-offset: 3px;
+}
+
+.footer__privacy:hover,
+.footer__privacy:focus-visible {
+    color: var(--color-blue);
+
+}
+
 .footer__social {
     align-items: center;
     border-radius: 4px;
@@ -1807,6 +1826,14 @@ button {
     gap: 48px;
     grid-template-columns: minmax(0, 1fr) 360px;
     padding-bottom: 60px;
+}
+
+.event-detail__layout.event-detail__layout-one-col{
+    grid-template-columns: 100%;
+}
+
+.event-detail__layout.event-detail__layout-one-col .event-detail__main{
+    gap: 0px;
 }
 
 .event-detail__main {
@@ -2860,6 +2887,14 @@ select.form-field__control option {
     width: 100%;
 }
 
+.wp-block-paragraph{
+    margin-block-start: 0;
+    margin-block-end: 1em;
+}
+.wp-block-list li{
+    margin-block-end: 1em;
+}
+
 @media (max-width: 1100px) {
     .hero {
         min-height: 860px;
@@ -2955,6 +2990,13 @@ select.form-field__control option {
 }
 
 @media (max-width: 860px) {
+
+
+    .contact-info-card__value {
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
     .nav__logo {
         aspect-ratio: 577 / 360;
         width: 100%;
@@ -3815,7 +3857,8 @@ select.form-field__control option {
     gap: 20px;
     justify-content: center;
     margin: 15px auto 0 auto;
-    max-width: 500px
+    max-width: 500px;
+    padding: 0 20px;
 }
 
 .about-carousel.swiper-initialized .about-carousel__controls {
@@ -3870,12 +3913,16 @@ select.form-field__control option {
 @media (max-width: 860px) {
     .about-carousel .split-section__inner {
         grid-template-columns: minmax(0, 1fr);
-        gap: 28px;
+        gap: 0px;
         padding-inline: var(--page-gutter);
     }
 
     .about-carousel .split-section__content {
         max-width: none;
+    }
+
+    .about-carousel .split-section__media {
+        order: -1;
     }
 
     .about-carousel .split-section__copy {

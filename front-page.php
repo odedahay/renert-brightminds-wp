@@ -12,7 +12,7 @@
                 <span>ACCEPTING ENROLMENTS</span>
             </p>
             <h1 class="hero__title" id="hero-title">Kids Are Smart</h1>
-            <p class="hero__copy">Renert Bright Minds believes kids are capable of more than we expect. Our afterschool math and writing programs give them the challenge and space to discover what they can do. Weekly classes are available online or in person.</p>
+            <p class="hero__copy">Renert Bright Minds believes kids are capable of more than we expect. Our afterschool Math and Writing programs give them the challenge and space to discover what they can do. Weekly classes are available online or in person.</p>
             <div class="hero__action">
                 <a class="button button--primary" href="<?php echo esc_url(home_url('/contact/')); ?>">Contact Our Team</a>
                 <!-- <p class="hero__note">Free 30-minute assessment · Ages 5+</p> -->

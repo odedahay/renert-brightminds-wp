@@ -50,6 +50,9 @@ if (processSteps) {
 }
 
 if (nav) {
+    const reducedHeaderMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let headerInitialized = false;
+    const headerAnimations = new Map();
     let stickyOffset = announcement ? announcement.offsetHeight : 0;
     let enrollStripOffset = enrollStrip
         ? enrollStrip.getBoundingClientRect().top + window.scrollY
@@ -57,6 +60,13 @@ if (nav) {
 
     const updateStickyNav = () => {
         const isSticky = window.scrollY > stickyOffset;
+        const stateChanged = nav.classList.contains("is-sticky") !== isSticky;
+        const movingElements = stateChanged && headerInitialized && !reducedHeaderMotion.matches
+            ? [announcement, nav].filter(Boolean)
+            : [];
+        const previousPositions = movingElements.map(element => element.getBoundingClientRect().top);
+
+        movingElements.forEach(element => headerAnimations.get(element)?.cancel());
 
         nav.classList.toggle("is-sticky", isSticky);
 
@@ -64,6 +74,16 @@ if (nav) {
             announcement.classList.toggle("is-sticky", isSticky);
             nav.style.setProperty("--announcement-height", `${announcement.offsetHeight}px`);
         }
+
+        // Ease the position change when the header enters or leaves fixed positioning.
+        movingElements.forEach((element, index) => {
+            const offset = previousPositions[index] - element.getBoundingClientRect().top;
+            headerAnimations.set(element, element.animate([
+                { transform: `translateY(${offset}px)` },
+                { transform: "translateY(0)" },
+            ], { duration: 280, easing: "ease-out" }));
+        });
+        headerInitialized = true;
 
         const stickyHeaderHeight = isSticky
             ? nav.offsetHeight + (announcement ? announcement.offsetHeight : 0)
@@ -94,6 +114,11 @@ if (nav) {
     updateStickyNav();
     window.addEventListener("scroll", updateStickyNav, { passive: true });
     window.addEventListener("resize", updateStickyNavOnResize);
+
+    // Keep the navigation and sticky content aligned throughout the size transition.
+    const headerResizeObserver = new ResizeObserver(updateStickyNav);
+    headerResizeObserver.observe(nav);
+    if (announcement) headerResizeObserver.observe(announcement);
 }
 
 const aboutCarousel = document.querySelector(".about-carousel");

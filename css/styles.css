@@ -57,8 +57,9 @@ button {
     background: var(--color-navy);
     color: #ffffff;
     display: flex;
-    min-height: 87px;
-    padding: 24px clamp(24px, 5vw, 70px);
+    min-height: 47px;
+    padding: 14px clamp(24px, 5vw, 70px);
+    transition: min-height 280ms ease, padding 280ms ease;
 }
 
 .announcement.is-sticky {
@@ -73,7 +74,7 @@ button {
 }
 
 .announcement.is-sticky .announcement__text {
-    font-size: 0.85rem;
+    font-size:1rem;
 }
 
 .announcement.is-sticky .announcement__icon {
@@ -107,14 +108,15 @@ button {
 }
 
 .announcement__text {
-    font-size: clamp(1rem, 1.75vw, 1.5625rem);
+    font-size: clamp(1rem, 1.15vw, 1.5625rem);
     font-weight: 700;
     line-height: 1.2;
+    transition: font-size 280ms ease;
 }
 
 .announcement__icon {
     height: 12.6px;
-    transition: transform 160ms ease;
+    transition: transform 160ms ease, width 280ms ease, height 280ms ease;
     width: 20.3px;
 }
 
@@ -170,17 +172,20 @@ button {
 
 .nav {
     align-items: center;
+    background: var(--color-cream);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     display: flex;
     justify-content: space-between;
     padding: 6px clamp(20px, 4vw, 57px);
-    transition: background-color 180ms ease, box-shadow 180ms ease;
+    transition: background-color 280ms ease, box-shadow 280ms ease, padding 280ms ease, min-height 280ms ease;
     width: 100%;
 }
 
 .nav.is-sticky {
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-    height: 100px;
+    background: var(--color-cream);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    height: auto;
+    min-height: 100px;
     left: 0;
     position: fixed;
     top: var(--announcement-height, 0px);
@@ -188,7 +193,8 @@ button {
 }
 
 .nav.is-sticky .nav__brand {
-    width: 96px;
+    padding: 4.25px;
+    width: calc(var(--nav-logo-width) * 0.75);
 }
 
 .nav.is-sticky .nav__portal {
@@ -197,13 +203,15 @@ button {
 }
 
 .nav__brand {
+    --nav-logo-width: 300px;
     display: block;
-    padding: 10px;
-    width: 149px;
+    flex-shrink: 0;
+    padding: 5px;
+    width: var(--nav-logo-width);
+    transition: width 280ms ease, padding 280ms ease;
 }
 
 .nav__logo {
-    aspect-ratio: 400 / 360;
     display: block;
     height: auto;
     object-fit: contain;
@@ -476,6 +484,11 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .announcement,
+    .announcement__text,
+    .announcement__icon,
+    .nav,
+    .nav__brand,
     .enroll-strip,
     .enroll-strip__title {
         transition: none;
@@ -1134,11 +1147,28 @@ button {
     order: 2;
 }
 
+.footer__links {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.footer__facebook {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.footer__facebook img {
+    display: block;
+    height: 24px;
+    width: 24px;
+}
+
 .footer__privacy {
     display: inline-block;
     font-size: 0.95rem;
     line-height: 1.4;
-    margin-top: 8px;
     text-decoration: none;
     text-underline-offset: 3px;
 }
@@ -1651,11 +1681,11 @@ button {
 }
 
 .event-detail-template .nav {
-    background: var(--color-yellow);
+    background: var(--color-cream);
 }
 
 .event-detail-template .nav.is-sticky {
-    background: rgba(255, 255, 255, 0.96);
+    background: var(--color-cream);
 }
 
 .event-list-page {
@@ -2896,6 +2926,15 @@ select.form-field__control option {
 }
 
 @media (max-width: 1100px) {
+    .nav__brand {
+        --nav-logo-width: 284px;
+    }
+
+    .nav__menu,
+    .nav__list {
+        gap: 16px;
+    }
+
     .hero {
         min-height: 860px;
     }
@@ -2997,10 +3036,6 @@ select.form-field__control option {
         font-weight: 600;
     }
 
-    .nav__logo {
-        aspect-ratio: 577 / 360;
-        width: 100%;
-    }
     .announcement {
         justify-content: center;
         min-height: 54px;
@@ -3039,13 +3074,9 @@ select.form-field__control option {
     }
 
     .nav__brand {
+        --nav-logo-width: 240px;
         position: relative;
-        width: 118px;
         z-index: 16;
-    }
-
-    .nav.is-sticky .nav__brand {
-        width: 104px;
     }
 
     .nav__toggle {
@@ -3296,7 +3327,8 @@ select.form-field__control option {
     .enroll-strip.is-compact {
         padding: 8px var(--page-gutter);
     }
-    .enroll-strip .button {
+    .enroll-strip .button,
+    .enroll-strip.is-compact .button {
         flex-shrink: 0;
         font-size: 0.875rem;
         min-height: 36px;
@@ -3329,7 +3361,8 @@ select.form-field__control option {
         font-size: clamp(0.75rem, 4vw, 1rem);
     }
 
-    .enroll-strip .button {
+    .enroll-strip .button,
+    .enroll-strip.is-compact .button {
         font-size: 0.75rem;
         min-height: 34px;
         padding: 0 12px;
@@ -3359,17 +3392,12 @@ select.form-field__control option {
     }
 
     .nav.is-sticky {
-        min-height: 95px;
+        min-height: 65px;
         padding-bottom: 10px;
     }
 
     .nav__brand {
-        padding: 0;
-        width: 105px;
-    }
-
-    .nav.is-sticky .nav__brand {
-        width: 105px;
+        --nav-logo-width: clamp(180px, 56vw, 220px);
     }
 
     .nav__toggle {

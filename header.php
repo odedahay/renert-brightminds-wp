@@ -2,12 +2,23 @@
 <html <?php language_attributes(); ?>>
 
 <head>
+    <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TWJTNFWF');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWJTNFWF"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <?php wp_body_open(); ?>
 
     <header class="site-header">
@@ -34,7 +45,7 @@
 
         <nav class="nav" aria-label="Main navigation">
             <a class="nav__brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="Renert Bright Minds home">
-                <img class="nav__logo" src="<?php echo esc_url(get_theme_file_uri('/assets/images/logo.png')); ?>" alt="Renert Bright Minds">
+                <img class="nav__logo" src="<?php echo esc_url(get_theme_file_uri('/assets/images/logo.svg')); ?>" alt="Renert Bright Minds">
             </a>
 
             <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-menu">
